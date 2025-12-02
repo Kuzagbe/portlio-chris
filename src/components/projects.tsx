@@ -194,7 +194,7 @@ export const Projects = () => {
                 
                 {/* Technology Icons */}
                 <div className="flex gap-0 mt-2 flex-wrap">
-                  {project.tags?.map((tag, tagIndex) => {
+                  {project.tags?.map((tag: string, tagIndex: number) => {
                     const { bg, icon } = getTechIcon(tag);
                     return (
                       <motion.div

@@ -218,7 +218,7 @@ export const Experience = () => {
                   </p>
                   {exp.technologies && (
                     <div className="flex gap-0 mt-1.5 sm:mt-2 flex-wrap">
-                      {exp.technologies.map((tech, techIndex) => {
+                      {exp.technologies.map((tech: string, techIndex: number) => {
                         const { bg, icon } = getTechIcon(tech);
                         return (
                           <motion.div

@@ -174,7 +174,7 @@ export default function AboutPage() {
 
             <div className="relative w-full min-h-[600px] h-[600px] overflow-clip">
               <DraggableCardContainer className="relative flex min-h-full w-full items-center justify-center overflow-clip">
-                {displayTravelPhotos.map((photo) => (
+                {displayTravelPhotos.map((photo: any) => (
                   <DraggableCardBody key={photo.id} className={photo.className}>
                     <img
                       src={photo.image}
