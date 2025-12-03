@@ -12,22 +12,29 @@ if (typeof window === 'undefined' && typeof process !== 'undefined' && typeof pr
 
 // Get environment variable - works in both contexts
 function getEnv(key: string, fallback?: string): string | undefined {
-  // In browser/Vite context, try to access import.meta.env
-  if (typeof window !== 'undefined') {
-    try {
-      // Access import.meta.env using eval to avoid CJS syntax errors
-      // @ts-ignore - import.meta only exists in ESM/Vite
-      const meta = eval('typeof import !== "undefined" ? import.meta : undefined');
-      if (meta && meta.env && meta.env[key]) {
-        return meta.env[key];
+  // In Vite/browser context, try to access import.meta.env first
+  try {
+    // @ts-ignore - import.meta exists in ESM/Vite
+    if (import.meta && import.meta.env) {
+      // @ts-ignore
+      const value = import.meta.env[key];
+      if (value !== undefined && value !== null && value !== '') {
+        return value;
       }
-    } catch {
-      // Not in ESM context, fall through to process.env
+    }
+  } catch (e) {
+    // Silently fail - will fall back to process.env
+  }
+  
+  // Fall back to process.env (only available in Node.js context)
+  if (typeof process !== 'undefined' && process.env) {
+    const value = process.env[key];
+    if (value !== undefined && value !== null && value !== '') {
+      return value;
     }
   }
   
-  // Fall back to process.env (works in Node.js, and Vite can inject it)
-  return process.env[key] || fallback;
+  return fallback;
 }
 
 export const apiVersion =
@@ -47,5 +54,6 @@ export const projectId =
   getEnv('NEXT_PUBLIC_SANITY_PROJECT_ID') ||
   getEnv('SANITY_PROJECT_ID') ||
   undefined;
+
 
 export const useCdn = false

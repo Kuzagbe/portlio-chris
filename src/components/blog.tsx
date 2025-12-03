@@ -55,9 +55,14 @@ const dummyPosts: Post[] = [
 ];
 
 export const Blog = () => {
-  const { posts } = useSanityPosts(dummyPosts);
+  const { data: postsData, loading } = useSanityPosts(dummyPosts);
+  
+  // Ensure we always have an array to map over
+  const posts = Array.isArray(postsData) && postsData.length > 0 
+    ? postsData 
+    : dummyPosts;
   // Show only first 3 posts
-  const displayedPosts = posts.slice(0, 3);
+  const displayedPosts = Array.isArray(posts) ? posts.slice(0, 3) : dummyPosts.slice(0, 3);
   const headingWords = ["Sharing", "knowledge", "as", "I", "learn"];
 
   return (
@@ -72,7 +77,7 @@ export const Blog = () => {
       </div>
 
       <div className="flex flex-col gap-6 sm:gap-8">
-        {displayedPosts.map((post) => (
+        {Array.isArray(displayedPosts) && displayedPosts.map((post: any) => (
           <div 
             key={post._id} 
             className="flex flex-col gap-1.5 sm:gap-2 cursor-pointer"

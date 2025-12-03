@@ -8,6 +8,7 @@ import {
   DraggableCardContainer,
 } from "@/components/ui/draggable-card";
 import { useSanityAbout } from "@/hooks/useSanityData";
+import { urlForImage } from "@/sanity/lib/image";
 
 const travelPhotos = [
   {
@@ -90,16 +91,17 @@ export default function AboutPage() {
     bio: "I'm a passionate software engineer dedicated to crafting elegant solutions for complex problems. With expertise in full-stack development, I enjoy building user-centric applications that make a difference.",
     travelPhotos: travelPhotos
   };
-  const { about } = useSanityAbout(defaultAbout);
+  const { data: about = defaultAbout } = useSanityAbout(defaultAbout);
   
-  const displayHeading = about.heading || defaultAbout.heading;
-  const displayBio = about.bio || defaultAbout.bio;
-  const displayTravelPhotos = (about.travelPhotos && about.travelPhotos.length > 0) 
+  const displayHeading = about?.heading || defaultAbout.heading;
+  const displayBio = about?.bio || defaultAbout.bio;
+  const displayTravelPhotos = (about?.travelPhotos && about.travelPhotos.length > 0) 
     ? about.travelPhotos.map((photo: any, index: number) => ({
+        _key: photo._key || `photo-${index}`,
         id: index + 1,
         location: photo.location,
         image: photo.image,
-        className: travelPhotos[index]?.className || `absolute top-${index * 20} left-[${20 + index * 5}%] rotate-[${index % 2 === 0 ? '-' : ''}${5 + index}]deg`
+        className: photo.className || travelPhotos[index]?.className || `absolute top-${index * 20} left-[${20 + index * 5}%] rotate-[${index % 2 === 0 ? '-' : ''}${5 + index}]deg`
       }))
     : travelPhotos;
 
@@ -175,9 +177,15 @@ export default function AboutPage() {
             <div className="relative w-full min-h-[600px] h-[600px] overflow-clip">
               <DraggableCardContainer className="relative flex min-h-full w-full items-center justify-center overflow-clip">
                 {displayTravelPhotos.map((photo: any) => (
-                  <DraggableCardBody key={photo.id} className={photo.className}>
+                  <DraggableCardBody key={photo._key || photo.id} className={photo.className}>
                     <img
-                      src={photo.image}
+                      src={
+                        photo.image 
+                          ? (typeof photo.image === 'string' 
+                              ? photo.image 
+                              : urlForImage(photo.image)?.url() || '')
+                          : ''
+                      }
                       alt={photo.location}
                       width={184}
                       height={138}

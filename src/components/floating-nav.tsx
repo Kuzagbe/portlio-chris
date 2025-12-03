@@ -1,8 +1,29 @@
 import React from "react";
 import { FloatingNav as FloatingNavbar } from "./ui/floating-navbar";
 import { IconHome, IconMessage, IconUser, IconCode, IconBook } from "@tabler/icons-react";
+import { useSanityHero } from "@/hooks/useSanityData";
+import { urlForImage } from "@/sanity/lib/image";
+
+// Default fallback image
+const DEFAULT_PROFILE_IMAGE = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces&auto=format";
 
 export const FloatingNav = () => {
+  const { data: hero } = useSanityHero(null);
+  
+  // Get profile image from Sanity, with fallback
+  const profileImage = React.useMemo(() => {
+    if (hero?.profileImage) {
+      if (typeof hero.profileImage === 'string') {
+        return hero.profileImage;
+      } else {
+        // It's a Sanity image object
+        const imageUrl = urlForImage(hero.profileImage)?.url();
+        return imageUrl || DEFAULT_PROFILE_IMAGE;
+      }
+    }
+    return DEFAULT_PROFILE_IMAGE;
+  }, [hero?.profileImage]);
+
   const navItems = [
     {
       name: "Home",
@@ -31,6 +52,6 @@ export const FloatingNav = () => {
     },
   ];
 
-  return <FloatingNavbar navItems={navItems} profileImage="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces&auto=format" />;
+  return <FloatingNavbar navItems={navItems} profileImage={profileImage} />;
 };
 

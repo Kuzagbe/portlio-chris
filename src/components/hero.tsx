@@ -47,11 +47,11 @@ export const Hero = () => {
     roles: ["Design Engineer", "Frontend Developer", "UI/UX Designer", "Full Stack Engineer"],
     bio: "They call me Soap. What the hell kind of a name is Soap? I'm a software engineer though with an eye for design."
   };
-  const { hero } = useSanityHero(defaultHero);
+  const { data: hero = defaultHero } = useSanityHero(defaultHero);
   
-  const nameWords = hero.name ? hero.name.split(" ") : ["John", "MacTavish"];
-  const roles = hero.roles || defaultHero.roles;
-  const bio = hero.bio || defaultHero.bio;
+  const nameWords = hero?.name ? hero.name.split(" ") : ["John", "MacTavish"];
+  const roles = hero?.roles || defaultHero.roles;
+  const bio = hero?.bio || defaultHero.bio;
 
   return (
     <section className="flex flex-col justify-start items-start pt-6 sm:pt-8 md:pt-10 lg:pt-12 pb-6 sm:pb-8 md:pb-10">

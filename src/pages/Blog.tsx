@@ -59,8 +59,8 @@ const posts: Post[] = [
 ];
 
 export default function BlogPage() {
-  const { posts: sanityPosts } = useSanityPosts(posts);
-  const displayPosts = sanityPosts.length > 0 ? sanityPosts : posts;
+  const { data: sanityPosts = posts } = useSanityPosts(posts);
+  const displayPosts = Array.isArray(sanityPosts) && sanityPosts.length > 0 ? sanityPosts : posts;
 
   return (
     <main className="min-h-screen flex flex-col items-center font-sans dark:bg-[#0a0a0a] bg-neutral-100">
@@ -126,7 +126,7 @@ export default function BlogPage() {
           {/* Blog Posts */}
           <div className="pt-10 pb-6 px-4">
             <div className="flex flex-col gap-6 sm:gap-8">
-              {displayPosts.map((post) => {
+              {displayPosts.map((post: any) => {
                 // Format publishedAt date if it's from Sanity
                 const publishedDate = post.publishedAt 
                   ? typeof post.publishedAt === 'string' && post.publishedAt.includes('T')

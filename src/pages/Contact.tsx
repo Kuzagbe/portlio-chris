@@ -12,10 +12,10 @@ export default function ContactPage() {
     heading: "Contact Me",
     description: "I'm open to freelancing offers. Reach out to me to inquire more about my work."
   };
-  const { contact } = useSanityContact(defaultContact);
+  const { data: contact = defaultContact } = useSanityContact(defaultContact);
   
-  const displayHeading = contact.heading || defaultContact.heading;
-  const displayDescription = contact.description || defaultContact.description;
+  const displayHeading = contact?.heading || defaultContact.heading;
+  const displayDescription = contact?.description || defaultContact.description;
 
   return (
     <main className="min-h-screen flex flex-col items-center font-sans dark:bg-[#0a0a0a] bg-neutral-100">

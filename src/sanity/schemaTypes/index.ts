@@ -5,8 +5,9 @@ import experience from './experience'
 import hero from './hero'
 import about from './about'
 import contact from './contact'
+import testimonial from './testimonial'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [project, post, experience, hero, about, contact],
+  types: [project, post, experience, hero, about, contact, testimonial],
 }
 

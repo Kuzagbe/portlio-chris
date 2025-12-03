@@ -1,56 +1,68 @@
+import { groq } from 'next-sanity'
 import { client, isSanityConfigured } from './client'
 
+// Projects query - returns image objects for proper URL building
 export async function getProjects() {
   try {
-    if (!isSanityConfigured()) {
-      return null
+    const configured = isSanityConfigured()
+    
+    if (!configured) {
+      return []
     }
-    return await client.fetch(`*[_type == "project"] | order(_createdAt desc) {
+    
+    const projects = await client.fetch(groq`*[_type == "project"] | order(_createdAt desc) {
       _id,
       title,
       slug,
       description,
-      "mainImage": mainImage.asset->url,
+      mainImage,
       link,
       tags
     }`)
+    return projects
   } catch (error) {
     console.error('Error fetching projects:', error)
-    return null
+    return []
   }
 }
 
+// Posts query
 export async function getPosts() {
   try {
     if (!isSanityConfigured()) {
-      return null
+      console.warn('Sanity not configured, returning empty array')
+      return []
     }
-    return await client.fetch(`*[_type == "post"] | order(publishedAt desc) {
+    return await client.fetch(groq`*[_type == "post"] | order(publishedAt desc) {
       _id,
       title,
       slug,
       publishedAt,
       overview,
+      mainImage,
       body
     }`)
   } catch (error) {
     console.error('Error fetching posts:', error)
-    return null
+    return []
   }
 }
 
+// Single post by slug
 export async function getPostBySlug(slug: string) {
   try {
     if (!isSanityConfigured()) {
+      console.warn('Sanity not configured, returning null')
       return null
     }
     return await client.fetch(
-      `*[_type == "post" && slug.current == $slug][0] {
+      groq`*[_type == "post" && slug.current == $slug][0] {
         _id,
         title,
         slug,
         publishedAt,
         overview,
+        mainImage,
         body
       }`,
       { slug }
@@ -61,15 +73,17 @@ export async function getPostBySlug(slug: string) {
   }
 }
 
+// Experiences query - returns image objects
 export async function getExperiences() {
   try {
     if (!isSanityConfigured()) {
-      return null
+      console.warn('Sanity not configured, returning empty array')
+      return []
     }
-    return await client.fetch(`*[_type == "experience"] | order(_createdAt desc) {
+    return await client.fetch(groq`*[_type == "experience"] | order(_createdAt desc) {
       _id,
       company,
-      "companyLogo": companyLogo.asset->url,
+      companyLogo,
       role,
       duration,
       description,
@@ -77,20 +91,22 @@ export async function getExperiences() {
     }`)
   } catch (error) {
     console.error('Error fetching experiences:', error)
-    return null
+    return []
   }
 }
 
+// Hero query - returns image object
 export async function getHero() {
   try {
     if (!isSanityConfigured()) {
+      console.warn('Sanity not configured, returning null')
       return null
     }
-    return await client.fetch(`*[_type == "hero"][0] {
+    return await client.fetch(groq`*[_type == "hero"][0] {
       name,
       roles,
       bio,
-      "profileImage": profileImage.asset->url
+      profileImage
     }`)
   } catch (error) {
     console.error('Error fetching hero:', error)
@@ -98,17 +114,21 @@ export async function getHero() {
   }
 }
 
+// About query - returns image objects
 export async function getAbout() {
   try {
     if (!isSanityConfigured()) {
+      console.warn('Sanity not configured, returning null')
       return null
     }
-    return await client.fetch(`*[_type == "about"][0] {
+    return await client.fetch(groq`*[_type == "about"][0] {
       heading,
       bio,
       travelPhotos[] {
+        _key,
         location,
-        "image": image.asset->url
+        image,
+        className
       }
     }`)
   } catch (error) {
@@ -117,12 +137,14 @@ export async function getAbout() {
   }
 }
 
+// Contact query
 export async function getContact() {
   try {
     if (!isSanityConfigured()) {
+      console.warn('Sanity not configured, returning null')
       return null
     }
-    return await client.fetch(`*[_type == "contact"][0] {
+    return await client.fetch(groq`*[_type == "contact"][0] {
       heading,
       description
     }`)
@@ -132,3 +154,21 @@ export async function getContact() {
   }
 }
 
+// Testimonials query - returns image objects
+export async function getTestimonials() {
+  try {
+    if (!isSanityConfigured()) {
+      console.warn('Sanity not configured, returning empty array')
+      return []
+    }
+    return await client.fetch(groq`*[_type == "testimonial"] {
+      _id,
+      name,
+      text,
+      image
+    }`)
+  } catch (error) {
+    console.error('Error fetching testimonials:', error)
+    return []
+  }
+}

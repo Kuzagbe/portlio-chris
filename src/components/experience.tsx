@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "motion/react";
 import { Experience as ExperienceType } from "@/types";
 import { useSanityExperiences } from "@/hooks/useSanityData";
+import { urlForImage } from "@/sanity/lib/image";
 
 const dummyExperience: ExperienceType[] = [
   {
@@ -48,7 +49,12 @@ const dummyExperience: ExperienceType[] = [
 
 export const Experience = () => {
   const headingWords = ["Worked", "at", "reputed", "firms"];
-  const { experiences } = useSanityExperiences(dummyExperience);
+  const { data: experiencesData, loading } = useSanityExperiences(dummyExperience);
+  
+  // Ensure we always have an array to map over
+  const experiences = Array.isArray(experiencesData) && experiencesData.length > 0 
+    ? experiencesData 
+    : dummyExperience;
 
   return (
     <section 
@@ -61,7 +67,7 @@ export const Experience = () => {
       </div>
 
       <div className="flex flex-col gap-8 sm:gap-10 md:gap-12">
-        {experiences.map((exp, expIndex) => {
+        {Array.isArray(experiences) && experiences.map((exp: any, expIndex: number) => {
           const getTechIcon = (tech: string) => {
             const icons: Record<string, { bg: string; icon: React.ReactNode }> = {
               react: { 
@@ -247,7 +253,13 @@ export const Experience = () => {
                   <div className="flex-shrink-0 hidden sm:block">
                     <div className="w-[100px] h-[33px] flex items-center justify-center bg-neutral-50 dark:bg-neutral-800 rounded px-2 py-1 border border-neutral-200 dark:border-neutral-700">
                       <img 
-                        src={exp.companyLogo}
+                        src={
+                          exp.companyLogo 
+                            ? (typeof exp.companyLogo === 'string' 
+                                ? exp.companyLogo 
+                                : urlForImage(exp.companyLogo)?.url() || '')
+                            : ''
+                        }
                         alt={exp.company} 
                         className="max-w-full max-h-full object-contain opacity-70 dark:opacity-50"
                       />
