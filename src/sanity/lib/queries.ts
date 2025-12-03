@@ -19,7 +19,8 @@ export async function getProjects() {
       description,
       mainImage,
       link,
-      tags
+      tags,
+      category
     }`)
     console.log('✅ Projects fetched:', projects.length, 'items')
     return projects

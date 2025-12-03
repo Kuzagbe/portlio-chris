@@ -28,7 +28,7 @@ export const Contact = () => {
             placeholder="Your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-24 sm:pr-32 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-sm text-neutral-800 dark:text-white placeholder:text-[rgba(64,64,64,0.5)] dark:placeholder:text-neutral-500"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-24 sm:pr-32 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-base text-neutral-800 dark:text-white placeholder:text-[rgba(64,64,64,0.5)] dark:placeholder:text-neutral-500"
           />
           <button 
             type="button" 

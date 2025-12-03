@@ -63,11 +63,13 @@ export default function BlogPage() {
           {/* Bio */}
           <div className="max-w-lg pt-3 sm:pt-4 px-2 sm:px-4">
             <p className="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              I&apos;m a software engineer with a passion for building scalable{" "}
+              I write about the craft behind creating products, from shaping{" "}
               <br className="hidden sm:block" />
-              and efficient systems. I&apos;m currently working as a software{" "}
+              clear user experiences to building the systems that support them.{" "}
               <br className="hidden sm:block" />
-              engineer at Google.
+              My aim is to share practical lessons, thoughtful ideas, and the{" "}
+              <br className="hidden sm:block" />
+              reasoning that guides real work in technology.
             </p>
           </div>
 

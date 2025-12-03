@@ -15,7 +15,7 @@ export const FloatingNav = ({
   navItems,
   className,
   showThemeToggle = true,
-  profileImage = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces&auto=format",
+  profileImage,
 }: {
   navItems: {
     name: string;
@@ -24,7 +24,7 @@ export const FloatingNav = ({
   }[];
   className?: string;
   showThemeToggle?: boolean;
-  profileImage?: string;
+  profileImage?: string | null;
 }) => {
   const { scrollYProgress } = useScroll();
   const { theme, resolvedTheme } = useTheme();
@@ -148,15 +148,17 @@ export const FloatingNav = ({
   const NavContent = ({ isFloating = false }: { isFloating?: boolean }) => (
     <>
       <div className="flex items-center">
-        <Link to="/">
-          <img
-            src={profileImage}
-            alt="Profile"
-            width={40}
-            height={40}
-            className="rounded-full w-8 h-8 sm:w-10 sm:h-10"
-          />
-        </Link>
+        {profileImage && (
+          <Link to="/">
+            <img
+              src={profileImage}
+              alt="Profile"
+              width={40}
+              height={40}
+              className="rounded-full w-8 h-8 sm:w-10 sm:h-10"
+            />
+          </Link>
+        )}
       </div>
       <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
         {showThemeToggle && (
@@ -169,11 +171,11 @@ export const FloatingNav = ({
             key={`link=${idx}`}
             to={navItem.link}
             className={cn(
-              "px-1.5 sm:px-2 py-1 text-xs sm:text-sm font-normal leading-4 sm:leading-5 text-black dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors whitespace-nowrap"
+              "px-2 sm:px-2 py-1.5 sm:py-1 text-sm sm:text-sm font-normal leading-5 sm:leading-5 text-black dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors whitespace-nowrap"
             )}
           >
             <span className="hidden sm:inline">{navItem.name}</span>
-            <span className="sm:hidden">{navItem.icon}</span>
+            <span className="sm:hidden text-base">{navItem.icon}</span>
           </Link>
         ))}
       </div>

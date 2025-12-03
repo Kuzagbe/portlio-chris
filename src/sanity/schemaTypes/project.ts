@@ -110,6 +110,21 @@ export default defineType({
       ],
       description: 'Select technologies used in this project. Start typing to see suggestions with icons.',
     }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: [
+          { value: 'ux-design', title: 'UX Design' },
+          { value: 'ux-engineering', title: 'UX Engineering' },
+          { value: 'product-management', title: 'Product Management' },
+        ],
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+      description: 'Select the category this project falls under.',
+    }),
   ],
 })
 

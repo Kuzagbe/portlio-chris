@@ -4,13 +4,10 @@ import { IconHome, IconMessage, IconUser, IconCode, IconBook } from "@tabler/ico
 import { useSanityHero } from "@/hooks/useSanityData";
 import { urlForImage } from "@/sanity/lib/image";
 
-// Default fallback image
-const DEFAULT_PROFILE_IMAGE = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces&auto=format";
-
 export const FloatingNav = () => {
   const { data: hero } = useSanityHero(null);
   
-  // Get profile image from Sanity, with fallback
+  // Get profile image from Sanity only
   const profileImage = React.useMemo(() => {
     if (hero?.profileImage) {
       if (typeof hero.profileImage === 'string') {
@@ -18,10 +15,10 @@ export const FloatingNav = () => {
       } else {
         // It's a Sanity image object
         const imageUrl = urlForImage(hero.profileImage)?.url();
-        return imageUrl || DEFAULT_PROFILE_IMAGE;
+        return imageUrl || null;
       }
     }
-    return DEFAULT_PROFILE_IMAGE;
+    return null;
   }, [hero?.profileImage]);
 
   const navItems = [

@@ -155,9 +155,25 @@ const getTechIcon = (tag: string) => {
 
 export default function ProjectsPage() {
   const { data: sanityProjects, loading, error } = useSanityProjects(EMPTY_ARRAY);
+  const [selectedCategory, setSelectedCategory] = React.useState<string>('all');
   
   // Use Sanity data only - no fallback to dummy data
-  const displayProjects = Array.isArray(sanityProjects) ? sanityProjects : [];
+  const allProjects = Array.isArray(sanityProjects) ? sanityProjects : [];
+  
+  // Filter projects based on selected category
+  const displayProjects = React.useMemo(() => {
+    if (selectedCategory === 'all') {
+      return allProjects;
+    }
+    return allProjects.filter((project: any) => project.category === selectedCategory);
+  }, [allProjects, selectedCategory]);
+  
+  const categories = [
+    { value: 'all', label: 'All' },
+    { value: 'ux-design', label: 'UX Design' },
+    { value: 'ux-engineering', label: 'UX Engineering' },
+    { value: 'product-management', label: 'Product Management' },
+  ];
 
   return (
     <main className="min-h-screen flex flex-col items-center font-sans dark:bg-[#0a0a0a] bg-neutral-100">
@@ -210,13 +226,13 @@ export default function ProjectsPage() {
           {/* Bio */}
           <div className="max-w-lg pt-3 sm:pt-4 px-2 sm:px-4">
             <p className="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              I&apos;m a passionate software engineer dedicated to crafting{" "}
+              I am a multidisciplinary builder with experience in software{" "}
               <br className="hidden sm:block" />
-              elegant solutions for complex problems. With expertise in full-{" "}
+              engineering, product design, product management, and project{" "}
               <br className="hidden sm:block" />
-              stack development, I enjoy building user-centric applications{" "}
+              management. I design how a product should feel, plan how it{" "}
               <br className="hidden sm:block" />
-              that make a difference.
+              should work, and build the systems that bring it to life.
             </p>
           </div>
 
@@ -224,13 +240,30 @@ export default function ProjectsPage() {
 
           {/* I love building things Section */}
           <div className="pt-10 pb-6 px-4">
-            <div className="flex items-center gap-2 mb-4 sm:mb-6">
+            <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6 flex-wrap">
               <h2 className="text-sm sm:text-base font-normal text-neutral-800 dark:text-neutral-100 flex flex-wrap gap-1.5">
                 <span>I</span>
                 <span>love</span>
                 <span>building</span>
                 <span>things</span>
               </h2>
+              
+              {/* Filter Buttons */}
+              <div className="flex items-center gap-2 flex-wrap">
+                {categories.map((category) => (
+                  <button
+                    key={category.value}
+                    onClick={() => setSelectedCategory(category.value)}
+                    className={`px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-colors ${
+                      selectedCategory === category.value
+                        ? 'bg-neutral-800 dark:bg-neutral-200 text-white dark:text-neutral-900'
+                        : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-700'
+                    }`}
+                  >
+                    {category.label}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 relative">
@@ -244,7 +277,10 @@ export default function ProjectsPage() {
                 </div>
               ) : displayProjects.length === 0 ? (
                 <div className="col-span-full text-center text-sm text-neutral-500 dark:text-neutral-400 py-8">
-                  No projects found. Add projects in your Sanity Studio.
+                  {selectedCategory === 'all' 
+                    ? 'No projects found. Add projects in your Sanity Studio.'
+                    : `No ${categories.find(c => c.value === selectedCategory)?.label || 'projects'} found. Try selecting a different category.`
+                  }
                 </div>
               ) : (
                 displayProjects.map((project: any, index: number) => {
@@ -253,7 +289,7 @@ export default function ProjectsPage() {
                       ? (project as any).mainImage 
                       : urlForImage((project as any).mainImage)?.url() || '')
                   : '';
-
+                
                 return (
                 <motion.div
                     key={project._id}
