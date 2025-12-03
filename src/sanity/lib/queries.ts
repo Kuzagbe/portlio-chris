@@ -146,7 +146,12 @@ export async function getContact() {
     }
     return await client.fetch(groq`*[_type == "contact"][0] {
       heading,
-      description
+      description,
+      socialLinks {
+        instagram,
+        linkedin,
+        github
+      }
     }`)
   } catch (error) {
     console.error('Error fetching contact:', error)
@@ -169,6 +174,26 @@ export async function getTestimonials() {
     }`)
   } catch (error) {
     console.error('Error fetching testimonials:', error)
+    return []
+  }
+}
+
+// Timeline achievements query
+export async function getTimeline() {
+  try {
+    if (!isSanityConfigured()) {
+      console.warn('Sanity not configured, returning empty array')
+      return []
+    }
+    return await client.fetch(groq`*[_type == "timeline"] | order(year desc, order asc, _createdAt asc) {
+      _id,
+      year,
+      title,
+      description,
+      order
+    }`)
+  } catch (error) {
+    console.error('Error fetching timeline:', error)
     return []
   }
 }

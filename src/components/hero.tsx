@@ -42,36 +42,56 @@ const AnimatedRoleBadge = ({
 };
 
 export const Hero = () => {
-  const defaultHero = {
-    name: "John MacTavish",
-    roles: ["Design Engineer", "Frontend Developer", "UI/UX Designer", "Full Stack Engineer"],
-    bio: "They call me Soap. What the hell kind of a name is Soap? I'm a software engineer though with an eye for design."
-  };
-  const { data: hero = defaultHero } = useSanityHero(defaultHero);
+  const { data: hero, loading } = useSanityHero(null);
   
-  const nameWords = hero?.name ? hero.name.split(" ") : ["John", "MacTavish"];
-  const roles = hero?.roles || defaultHero.roles;
-  const bio = hero?.bio || defaultHero.bio;
+  // Use only Sanity data - show loading or empty state if no data
+  const nameWords = hero?.name ? hero.name.split(" ") : [];
+  const roles = hero?.roles || [];
+  const bio = hero?.bio || "";
+
+  if (loading) {
+    return (
+      <section className="flex flex-col justify-start items-start pt-6 sm:pt-8 md:pt-10 lg:pt-12 pb-6 sm:pb-8 md:pb-10">
+        <div className="text-sm text-neutral-500 dark:text-neutral-400">
+          Loading...
+        </div>
+      </section>
+    );
+  }
+
+  if (!hero || (!hero.name && !hero.bio)) {
+    return (
+      <section className="flex flex-col justify-start items-start pt-6 sm:pt-8 md:pt-10 lg:pt-12 pb-6 sm:pb-8 md:pb-10">
+        <div className="text-sm text-neutral-500 dark:text-neutral-400">
+          No hero content found. Add hero content in your Sanity Studio.
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="flex flex-col justify-start items-start pt-6 sm:pt-8 md:pt-10 lg:pt-12 pb-6 sm:pb-8 md:pb-10">
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-6 sm:mb-8 w-full">
         <div className="flex flex-col">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[36px] font-bold leading-tight sm:leading-[36px] md:leading-[40px] text-[#262626] dark:text-white">
-            {nameWords.join(" ")}
+            {nameWords.length > 0 ? nameWords.join(" ") : "Your Name"}
           </h1>
         </div>
-        <AnimatedRoleBadge 
-          roles={roles}
-          duration={3000}
-        />
+        {roles.length > 0 && (
+          <AnimatedRoleBadge 
+            roles={roles}
+            duration={3000}
+          />
+        )}
       </div>
 
-      <div className="max-w-lg w-full">
-        <p className="text-sm sm:text-base font-normal leading-5 sm:leading-6 text-[#737373] dark:text-neutral-400">
-          {bio}
-        </p>
-      </div>
+      {bio && (
+        <div className="max-w-lg w-full">
+          <p className="text-sm sm:text-base font-normal leading-5 sm:leading-6 text-[#737373] dark:text-neutral-400">
+            {bio}
+          </p>
+        </div>
+      )}
     </section>
   );
 };

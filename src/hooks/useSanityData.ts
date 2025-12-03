@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { getProjects, getPosts, getExperiences, getHero, getAbout, getContact, getTestimonials } from '@/sanity/lib/queries'
+import { getProjects, getPosts, getExperiences, getHero, getAbout, getContact, getTestimonials, getTimeline } from '@/sanity/lib/queries'
 
 // Generic hook for fetching Sanity data
 function useSanityData<T>(
@@ -22,44 +22,36 @@ function useSanityData<T>(
       try {
         setLoading(true)
         setError(null)
-        console.log('🔄 Fetching Sanity data...')
         const result = await fetchFn()
-        console.log('📦 Sanity data received:', result)
         
         if (!isMounted) return
         
-        // If we got data from Sanity, use it; otherwise use fallback
+        // Only use Sanity data - don't use fallback
         if (result !== null && result !== undefined) {
           if (Array.isArray(result)) {
             // For arrays, use Sanity data even if empty
-            console.log('✅ Using Sanity array data:', result.length, 'items')
             setData(result)
           } else if (result) {
             // For objects, use Sanity data
-            console.log('✅ Using Sanity object data')
             setData(result)
           } else {
-            // No data from Sanity, use fallback
-            console.log('⚠️ No Sanity data, using fallback')
-            setData(fallback)
+            // No data from Sanity - set to null/empty
+            setData(Array.isArray(fallback) ? [] : null)
           }
         } else {
-          // No data from Sanity, use fallback
-          console.log('⚠️ Result is null/undefined, using fallback')
-          setData(fallback)
+          // No data from Sanity - set to null/empty
+          setData(Array.isArray(fallback) ? [] : null)
         }
       } catch (err) {
         if (!isMounted) return
-        console.error('❌ Error fetching Sanity data:', err)
         const errorObj = err instanceof Error ? err : new Error(String(err))
         setError(errorObj)
-        // On error, use fallback data
-        setData(fallback)
+        // On error, set to null/empty instead of fallback
+        setData(Array.isArray(fallback) ? [] : null)
       } finally {
         if (isMounted) {
           setLoading(false)
           isFetching = false
-          console.log('🏁 Fetch complete')
         }
       }
     }
@@ -107,5 +99,10 @@ export function useSanityContact(fallback: any = null) {
 
 export function useSanityTestimonials(fallback: any[] = []) {
   const fetchFn = useCallback(() => getTestimonials(), [])
+  return useSanityData(fetchFn, fallback)
+}
+
+export function useSanityTimeline(fallback: any[] = []) {
+  const fetchFn = useCallback(() => getTimeline(), [])
   return useSanityData(fetchFn, fallback)
 }

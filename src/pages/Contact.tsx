@@ -8,14 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSanityContact } from "@/hooks/useSanityData";
 
 export default function ContactPage() {
-  const defaultContact = {
-    heading: "Contact Me",
-    description: "I'm open to freelancing offers. Reach out to me to inquire more about my work."
-  };
-  const { data: contact = defaultContact } = useSanityContact(defaultContact);
+  const { data: contact, loading } = useSanityContact(null);
   
-  const displayHeading = contact?.heading || defaultContact.heading;
-  const displayDescription = contact?.description || defaultContact.description;
+  // Use only Sanity data - no fallback
+  const displayHeading = contact?.heading || "Contact Me";
+  const displayDescription = contact?.description || "I'm open to freelancing offers. Reach out to me to inquire more about my work.";
 
   return (
     <main className="min-h-screen flex flex-col items-center font-sans dark:bg-[#0a0a0a] bg-neutral-100">

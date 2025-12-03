@@ -4,28 +4,6 @@ import { useSanityTestimonials } from "@/hooks/useSanityData";
 import { urlForImage } from "@/sanity/lib/image";
 
 
-// Fallback testimonials (only used if no Sanity data)
-const fallbackTestimonials = [
-  {
-    _id: "1",
-    name: "Elon Musk",
-    text: "Manu is so great with his work, our production was shut down within the first day itself. Highly recommended.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=faces&auto=format"
-  },
-  {
-    _id: "2",
-    name: "Mark Zuckerberg",
-    text: "Working with Manu was a game-changer for our startup. His technical expertise and problem-solving skills are unmatched.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=faces&auto=format"
-  },
-  {
-    _id: "3",
-    name: "Sundar Pichai",
-    text: "Manu delivered our project ahead of schedule and exceeded all expectations. His attention to detail is remarkable.",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=64&h=64&fit=crop&crop=faces&auto=format"
-  }
-];
-
 // Stable empty array reference
 const EMPTY_ARRAY: any[] = [];
 
@@ -33,16 +11,16 @@ export const Testimonials = () => {
   const headingWords = ["People", "love", "my", "work"];
   const { data: testimonialsDataRaw, loading, error } = useSanityTestimonials(EMPTY_ARRAY);
   
-  // Use Sanity data if available, otherwise use fallback
+  // Use only Sanity data - no fallback
   // Deduplicate by _id to prevent duplicates
   const testimonialsData = React.useMemo(() => {
-    const data = Array.isArray(testimonialsDataRaw) && testimonialsDataRaw.length > 0 
-      ? testimonialsDataRaw 
-      : fallbackTestimonials;
+    if (!Array.isArray(testimonialsDataRaw) || testimonialsDataRaw.length === 0) {
+      return [];
+    }
     
     // Remove duplicates based on _id
     const seen = new Set();
-    return data.filter((item: any) => {
+    return testimonialsDataRaw.filter((item: any) => {
       const id = item._id || item.id || JSON.stringify(item);
       if (seen.has(id)) {
         return false;
@@ -84,12 +62,25 @@ export const Testimonials = () => {
       </div>
 
       <div className="relative w-full overflow-hidden">
-        <motion.div 
-          className="flex gap-4 sm:gap-6"
-          animate={controls}
-        >
+        {loading ? (
+          <div className="text-center text-sm text-neutral-500 dark:text-neutral-400 py-8">
+            Loading testimonials...
+          </div>
+        ) : error ? (
+          <div className="text-center text-sm text-red-500 dark:text-red-400 py-8">
+            Error loading testimonials. Please try again later.
+          </div>
+        ) : testimonialsData.length === 0 ? (
+          <div className="text-center text-sm text-neutral-500 dark:text-neutral-400 py-8">
+            No testimonials found. Add testimonials in your Sanity Studio.
+          </div>
+        ) : (
+          <motion.div 
+            className="flex gap-4 sm:gap-6"
+            animate={controls}
+          >
             {/* Duplicating for infinite scroll effect - only duplicate unique items */}
-            {Array.isArray(testimonialsData) && testimonialsData.length > 0 && [...testimonialsData, ...testimonialsData].map((t: any, i: number) => {
+            {[...testimonialsData, ...testimonialsData].map((t: any, i: number) => {
               const imageUrl = t.image 
                 ? (typeof t.image === 'string' 
                     ? t.image 
@@ -127,7 +118,8 @@ export const Testimonials = () => {
                 </div>
               );
             })}
-        </motion.div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

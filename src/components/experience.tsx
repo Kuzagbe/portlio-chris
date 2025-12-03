@@ -1,60 +1,17 @@
 import React from "react";
 import { motion } from "motion/react";
-import { Experience as ExperienceType } from "@/types";
 import { useSanityExperiences } from "@/hooks/useSanityData";
 import { urlForImage } from "@/sanity/lib/image";
 
-const dummyExperience: ExperienceType[] = [
-  {
-    _id: "1",
-    company: "Google",
-    role: "Senior Frontend Engineer",
-    duration: "June 2020 - Present",
-    description: "Led the development of key features for Google Cloud Platform's web console while improving performance metrics by 35%.",
-    technologies: ["React", "TypeScript", "Redux", "GraphQL", "Jest", "Cypress"],
-  },
-  {
-    _id: "2",
-    company: "Microsoft",
-    role: "Software Engineer",
-    duration: "August 2018 - May 2020",
-    description: "Worked on the Microsoft Teams web application, implementing real-time collaboration features and UI components.",
-    technologies: ["React", "JavaScript", "Azure", "WebRTC", "Webpack", "SASS"],
-  },
-  {
-    _id: "3",
-    company: "Airbnb",
-    role: "Frontend Developer",
-    duration: "January 2017 - July 2018",
-    description: "Developed and maintained core components of Airbnb's booking platform.",
-    technologies: ["React", "Redux", "Node.js", "Express", "MongoDB", "Styled Components"],
-  },
-  {
-    _id: "4",
-    company: "Shopify",
-    role: "Freelance Web Developer",
-    duration: "March 2019 - December 2019",
-    description: "Designed and developed custom Shopify themes for enterprise clients with optimized checkout flows.",
-    technologies: ["JavaScript", "HTML5", "CSS3", "SCSS", "Shopify API"],
-  },
-  {
-    _id: "5",
-    company: "Adobe",
-    role: "Freelance Frontend Consultant",
-    duration: "September 2016 - November 2016",
-    description: "Consulted on the redesign of Adobe's Creative Cloud web application.",
-    technologies: ["HTML5", "JavaScript", "CSS3"],
-  },
-];
+// Stable empty array reference
+const EMPTY_ARRAY: any[] = [];
 
 export const Experience = () => {
   const headingWords = ["Worked", "at", "reputed", "firms"];
-  const { data: experiencesData, loading } = useSanityExperiences(dummyExperience);
+  const { data: experiencesData, loading, error } = useSanityExperiences(EMPTY_ARRAY);
   
-  // Ensure we always have an array to map over
-  const experiences = Array.isArray(experiencesData) && experiencesData.length > 0 
-    ? experiencesData 
-    : dummyExperience;
+  // Use only Sanity data - no fallback
+  const experiences = Array.isArray(experiencesData) ? experiencesData : [];
 
   return (
     <section 
@@ -67,7 +24,20 @@ export const Experience = () => {
       </div>
 
       <div className="flex flex-col gap-8 sm:gap-10 md:gap-12">
-        {Array.isArray(experiences) && experiences.map((exp: any, expIndex: number) => {
+        {loading ? (
+          <div className="text-center text-sm text-neutral-500 dark:text-neutral-400 py-8">
+            Loading experience...
+          </div>
+        ) : error ? (
+          <div className="text-center text-sm text-red-500 dark:text-red-400 py-8">
+            Error loading experience. Please try again later.
+          </div>
+        ) : experiences.length === 0 ? (
+          <div className="text-center text-sm text-neutral-500 dark:text-neutral-400 py-8">
+            No experience found. Add experience in your Sanity Studio.
+          </div>
+        ) : (
+          experiences.map((exp: any, expIndex: number) => {
           const getTechIcon = (tech: string) => {
             const icons: Record<string, { bg: string; icon: React.ReactNode }> = {
               react: { 
@@ -269,7 +239,8 @@ export const Experience = () => {
               </div>
             </div>
           );
-        })}
+        })
+        )}
       </div>
     </section>
   );
