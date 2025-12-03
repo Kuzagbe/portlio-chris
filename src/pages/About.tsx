@@ -45,7 +45,7 @@ export default function AboutPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center font-sans dark:bg-[#0a0a0a] bg-neutral-100">
-      <div className="w-full max-w-[896px] relative flex flex-col shadow-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 dark:bg-[#171717] bg-white">
+      <div className="w-full max-w-[896px] relative flex flex-col min-h-screen shadow-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 dark:bg-[#171717] bg-white">
         
         {/* Diagonal Stripe Patterns (Left and Right) */}
         <div 
@@ -83,7 +83,7 @@ export default function AboutPage() {
           <FloatingNav />
         </div>
 
-        <div className="px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 relative z-10">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 relative z-10 flex-1 flex flex-col">
           {/* About Me Heading */}
           <div className="px-4">
             <h1 className="text-[36px] font-bold leading-[40px] text-[#262626] dark:text-neutral-100">

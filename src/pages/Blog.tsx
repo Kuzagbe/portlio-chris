@@ -14,7 +14,7 @@ export default function BlogPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center font-sans dark:bg-[#0a0a0a] bg-neutral-100">
-      <div className="w-full max-w-[896px] relative flex flex-col shadow-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 dark:bg-[#171717] bg-white">
+      <div className="w-full max-w-[896px] relative flex flex-col min-h-screen shadow-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 dark:bg-[#171717] bg-white">
         
         {/* Diagonal Stripe Patterns (Left and Right) */}
         <div 
@@ -52,7 +52,7 @@ export default function BlogPage() {
           <FloatingNav />
         </div>
 
-        <div className="px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 relative z-10">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 relative z-10 flex-1 flex flex-col">
           {/* All blogs Heading */}
           <div className="py-3 sm:py-4 px-2 sm:px-4">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-800 dark:text-neutral-100">
@@ -62,7 +62,7 @@ export default function BlogPage() {
 
           {/* Bio */}
           <div className="max-w-lg pt-3 sm:pt-4 px-2 sm:px-4">
-            <p className="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 leading-relaxed">
+            <p className="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 leading-6 sm:leading-relaxed">
               I write about the craft behind creating products, from shaping{" "}
               <br className="hidden sm:block" />
               clear user experiences to building the systems that support them.{" "}
@@ -76,7 +76,7 @@ export default function BlogPage() {
           <SectionDivider />
 
           {/* Blog Posts */}
-          <div className="pt-10 pb-6 px-4">
+          <div className="pt-10 pb-6 px-4 flex-1">
             <div className="flex flex-col gap-6 sm:gap-8">
               {loading ? (
                 <div className="text-center text-sm text-neutral-500 dark:text-neutral-400 py-8">

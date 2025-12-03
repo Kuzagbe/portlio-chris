@@ -177,7 +177,7 @@ export default function ProjectsPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center font-sans dark:bg-[#0a0a0a] bg-neutral-100">
-      <div className="w-full max-w-[896px] relative flex flex-col shadow-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 dark:bg-[#171717] bg-white">
+      <div className="w-full max-w-[896px] relative flex flex-col min-h-screen shadow-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 dark:bg-[#171717] bg-white">
         
         {/* Diagonal Stripe Patterns (Left and Right) */}
         <div 
@@ -215,7 +215,7 @@ export default function ProjectsPage() {
           <FloatingNav />
         </div>
           
-        <div className="px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 relative z-10">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 relative z-10 flex-1 flex flex-col">
           {/* Projects Heading */}
           <div className="py-3 sm:py-4 px-2 sm:px-4">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-800 dark:text-neutral-100">
@@ -225,7 +225,7 @@ export default function ProjectsPage() {
 
           {/* Bio */}
           <div className="max-w-lg pt-3 sm:pt-4 px-2 sm:px-4">
-            <p className="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 leading-relaxed">
+            <p className="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 leading-6 sm:leading-relaxed">
               I am a multidisciplinary builder with experience in software{" "}
               <br className="hidden sm:block" />
               engineering, product design, product management, and project{" "}
@@ -239,7 +239,7 @@ export default function ProjectsPage() {
           <SectionDivider />
 
           {/* I love building things Section */}
-          <div className="pt-10 pb-6 px-4">
+          <div className="pt-10 pb-6 px-4 flex-1">
             <div className="flex items-center justify-between gap-4 mb-4 sm:mb-6 flex-wrap">
               <h2 className="text-sm sm:text-base font-normal text-neutral-800 dark:text-neutral-100 flex flex-wrap gap-1.5">
                 <span>I</span>

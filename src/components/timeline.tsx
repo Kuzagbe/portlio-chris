@@ -58,7 +58,7 @@ export const Timeline = () => {
           No achievements found. Add timeline achievements in your Sanity Studio.
         </div>
       ) : (
-        <div className="flex flex-col gap-8 max-w-[800px]">
+        <div className="flex flex-col gap-8 max-w-[800px] w-full">
           {timelineData.map((yearGroup) => (
             <div key={yearGroup.year} className="flex flex-col gap-2">
                <div className="px-2 py-0.5 bg-white/0 dark:bg-transparent border border-neutral-200 dark:border-neutral-700 rounded-md inline-block w-fit shadow-[0px_0px_0px_1px_rgba(25,28,33,0.08)] dark:shadow-none">
@@ -70,15 +70,15 @@ export const Timeline = () => {
                <div className="flex flex-col gap-4 pl-4">
                  {yearGroup.items.map((item: any, idx: number) => (
                    <div key={idx} className="flex flex-col">
-                      <div className="flex items-start gap-2">
+                      <div className="flex items-start gap-2 min-w-0">
                           <div className="w-4 h-5 pt-1 flex-shrink-0">
                             <div className="w-[13.33px] h-[13.33px] bg-[#737373] dark:bg-neutral-400" />
                           </div>
-                          <h3 className="text-base font-normal leading-6 text-[#525252] dark:text-neutral-300">
+                          <h3 className="text-base font-normal leading-6 text-[#525252] dark:text-neutral-300 break-words overflow-wrap-anywhere flex-1 min-w-0">
                              {item.title}
                           </h3>
                       </div>
-                      <p className="text-sm font-normal leading-5 text-[#A1A1A1] dark:text-neutral-400 pl-6 pt-1">
+                      <p className="text-sm font-normal leading-5 text-[#A1A1A1] dark:text-neutral-400 pl-6 pt-1 break-words overflow-wrap-anywhere">
                          {item.description}
                       </p>
                    </div>

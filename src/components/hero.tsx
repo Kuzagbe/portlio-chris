@@ -87,7 +87,7 @@ export const Hero = () => {
 
       {bio && (
         <div className="max-w-lg w-full">
-          <p className="text-sm sm:text-base font-normal leading-5 sm:leading-6 text-[#737373] dark:text-neutral-400">
+          <p className="text-sm sm:text-base font-normal leading-6 text-[#737373] dark:text-neutral-400">
             {bio}
           </p>
         </div>

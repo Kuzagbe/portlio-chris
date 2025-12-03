@@ -66,6 +66,9 @@ export const FloatingNav = ({
   }, []);
 
   useEffect(() => {
+    let retryCount = 0;
+    const maxRetries = 10;
+    
     const updatePosition = () => {
       if (normalNavRef.current) {
         const nav = normalNavRef.current;
@@ -87,6 +90,17 @@ export const FloatingNav = ({
           const contactRect = contactLink.getBoundingClientRect();
           setProfileLeft(profileRect.left);
           setContactRight(window.innerWidth - contactRect.right);
+          retryCount = 0; // Reset retry count on success
+        } else {
+          // Retry if elements aren't found (they might still be loading)
+          if (retryCount < maxRetries) {
+            retryCount++;
+            setTimeout(updatePosition, 100 * retryCount); // Exponential backoff
+          } else {
+            // Fallback: use nav position if elements not found
+            setProfileLeft(navRect.left + 16); // Default padding
+            setContactRight(window.innerWidth - navRect.right + 16); // Default padding
+          }
         }
       }
     };
@@ -96,14 +110,23 @@ export const FloatingNav = ({
       requestAnimationFrame(updatePosition);
     };
 
+    // Initial update with retry mechanism
     updatePosition();
+    
+    // Also try after a short delay to catch async-loaded elements
+    const delayedUpdate = setTimeout(() => {
+      updatePosition();
+    }, 200);
+    
     window.addEventListener('resize', rafUpdate);
     window.addEventListener('scroll', rafUpdate, { passive: true });
+    
     return () => {
+      clearTimeout(delayedUpdate);
       window.removeEventListener('resize', rafUpdate);
       window.removeEventListener('scroll', rafUpdate);
     };
-  }, []);
+  }, [profileImage]); // Re-run when profileImage changes
 
   // Direct scroll listener for immediate detection
   useEffect(() => {
@@ -171,11 +194,11 @@ export const FloatingNav = ({
             key={`link=${idx}`}
             to={navItem.link}
             className={cn(
-              "px-2 sm:px-2 py-1.5 sm:py-1 text-sm sm:text-sm font-normal leading-5 sm:leading-5 text-black dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors whitespace-nowrap"
+              "px-1.5 sm:px-2 py-1 text-xs sm:text-sm font-normal leading-4 sm:leading-5 text-black dark:text-white hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors whitespace-nowrap"
             )}
           >
             <span className="hidden sm:inline">{navItem.name}</span>
-            <span className="sm:hidden text-base">{navItem.icon}</span>
+            <span className="sm:hidden">{navItem.icon}</span>
           </Link>
         ))}
       </div>
@@ -242,8 +265,8 @@ export const FloatingNav = ({
             WebkitBackdropFilter: 'blur(12px) saturate(180%)',
             borderRadius: borderRadius,
             top: isMobile ? 16 : 24,
-            left: isMobile ? 8 : Math.max(8, profileLeft - 30),
-            right: isMobile ? '8px' : `${Math.max(8, contactRight - 30)}px`,
+            left: isMobile ? 8 : (profileLeft > 0 ? Math.max(8, profileLeft - 30) : Math.max(8, normalNavLeft + 16)),
+            right: isMobile ? '8px' : (contactRight > 0 ? `${Math.max(8, contactRight - 30)}px` : `${Math.max(8, window.innerWidth - normalNavLeft - normalNavWidth + 16)}px`),
             zIndex: 999999,
           }}
         >

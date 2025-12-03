@@ -16,7 +16,7 @@ export default function ContactPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center font-sans dark:bg-[#0a0a0a] bg-neutral-100">
-      <div className="w-full max-w-[896px] relative flex flex-col shadow-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 dark:bg-[#171717] bg-white">
+      <div className="w-full max-w-[896px] relative flex flex-col min-h-screen shadow-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 dark:bg-[#171717] bg-white">
         
         {/* Diagonal Stripe Patterns (Left and Right) */}
         <div 
@@ -54,17 +54,17 @@ export default function ContactPage() {
           <FloatingNav />
         </div>
 
-        <div className="px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 relative z-10">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 relative z-10 flex-1 flex flex-col">
           {/* Contact Me Heading */}
           <div className="mb-4 sm:mb-6">
-            <h1 className="text-[36px] font-bold leading-[40px] text-[#262626] dark:text-neutral-100">
+            <h1 className="text-2xl sm:text-3xl md:text-[36px] font-bold leading-tight sm:leading-[36px] md:leading-[40px] text-[#262626] dark:text-neutral-100">
               {displayHeading}
             </h1>
           </div>
 
           {/* Bio */}
           <div className="mb-8 sm:mb-10 md:mb-12">
-            <p className="text-base font-normal leading-6 text-[#737373] dark:text-neutral-400 max-w-2xl whitespace-pre-line">
+            <p className="text-sm sm:text-base font-normal leading-6 sm:leading-7 text-[#737373] dark:text-neutral-400 max-w-2xl whitespace-pre-line">
               {displayDescription}
             </p>
           </div>
@@ -72,11 +72,11 @@ export default function ContactPage() {
           <SectionDivider />
 
           {/* Contact Form */}
-          <form className="mx-auto my-6 border-y border-neutral-100 dark:border-neutral-800 px-4 py-12 shadow-[0px_-1px_4px_#F5F5F5_inset] dark:shadow-[0px_-1px_4px_rgba(255,255,255,0.05)_inset]">
-            <div className="mx-auto flex max-w-lg flex-col gap-5">
+          <form className="w-full my-6 sm:my-8 md:my-10">
+            <div className="mx-auto flex max-w-xl flex-col gap-6 sm:gap-7">
               {/* Full name */}
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="name" className="text-sm font-medium tracking-tight text-neutral-600 dark:text-neutral-400">
+              <div className="flex flex-col gap-2.5 sm:gap-3">
+                <Label htmlFor="name" className="text-base sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
                   Full name
                 </Label>
                 <Input
@@ -88,8 +88,8 @@ export default function ContactPage() {
               </div>
 
               {/* Email Address */}
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="email" className="text-sm font-medium tracking-tight text-neutral-600 dark:text-neutral-400">
+              <div className="flex flex-col gap-2.5 sm:gap-3">
+                <Label htmlFor="email" className="text-base sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
                   Email Address
                 </Label>
                 <Input
@@ -101,32 +101,34 @@ export default function ContactPage() {
               </div>
 
               {/* Message */}
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="message" className="text-sm font-medium tracking-tight text-neutral-600 dark:text-neutral-400">
+              <div className="flex flex-col gap-2.5 sm:gap-3">
+                <Label htmlFor="message" className="text-base sm:text-sm font-medium text-neutral-700 dark:text-neutral-300">
                   Message
                 </Label>
                 <Textarea
                   id="message"
                   name="message"
-                  rows={5}
+                  rows={6}
                   placeholder="You're crazy good, never change."
                 />
               </div>
 
               {/* Send message button */}
-              <button
-                type="submit"
-                className="rounded-md border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 px-4 py-1.5 text-sm text-neutral-700 dark:text-neutral-200 shadow-[0px_4px_8px_0px_var(--color-neutral-200)_inset] dark:shadow-[0px_4px_8px_0px_var(--color-neutral-700)_inset] transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-700"
-              >
-                Send message
-              </button>
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto rounded-md border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 px-6 sm:px-8 py-3 sm:py-2.5 text-base sm:text-sm font-medium text-neutral-700 dark:text-neutral-200 shadow-[0px_4px_8px_0px_var(--color-neutral-200)_inset] dark:shadow-[0px_4px_8px_0px_var(--color-neutral-700)_inset] transition-all hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:shadow-[0px_2px_4px_0px_var(--color-neutral-200)_inset] dark:hover:shadow-[0px_2px_4px_0px_var(--color-neutral-700)_inset] active:scale-[0.98]"
+                >
+                  Send message
+                </button>
+              </div>
             </div>
           </form>
 
           <SectionDivider />
 
           {/* Empty Section */}
-          <div className="pt-8 sm:pt-10 md:pt-12 pb-6 sm:pb-8 md:pb-10 min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh]">
+          <div className="pt-8 sm:pt-10 md:pt-12 pb-6 sm:pb-8 md:pb-10 flex-1">
             {/* Empty section - ready for future content */}
           </div>
         </div>
