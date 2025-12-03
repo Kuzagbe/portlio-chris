@@ -45,6 +45,16 @@ function getClientConfig() {
 const config = getClientConfig();
 const isConfigured = !!(config.projectId && config.dataset)
 
+// Debug logging in browser
+if (typeof window !== 'undefined') {
+  console.log('🔧 Sanity Client Config:', {
+    projectId: config.projectId,
+    dataset: config.dataset,
+    apiVersion: config.apiVersion,
+    isConfigured,
+  });
+}
+
 export const client = createClient({
   projectId: config.projectId,
   dataset: config.dataset,

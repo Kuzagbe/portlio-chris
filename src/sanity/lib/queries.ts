@@ -7,9 +7,11 @@ export async function getProjects() {
     const configured = isSanityConfigured()
     
     if (!configured) {
+      console.warn('⚠️ Sanity not configured')
       return []
     }
     
+    console.log('🔄 Fetching projects from Sanity...')
     const projects = await client.fetch(groq`*[_type == "project"] | order(_createdAt desc) {
       _id,
       title,
@@ -19,9 +21,10 @@ export async function getProjects() {
       link,
       tags
     }`)
+    console.log('✅ Projects fetched:', projects.length, 'items')
     return projects
   } catch (error) {
-    console.error('Error fetching projects:', error)
+    console.error('❌ Error fetching projects:', error)
     return []
   }
 }

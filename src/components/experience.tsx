@@ -2,6 +2,61 @@ import React from "react";
 import { motion } from "motion/react";
 import { useSanityExperiences } from "@/hooks/useSanityData";
 import { urlForImage } from "@/sanity/lib/image";
+import {
+  SiReact,
+  SiTypescript,
+  SiJavascript,
+  SiNodedotjs,
+  SiPython,
+  SiGo,
+  SiRust,
+  SiPhp,
+  SiRuby,
+  SiSwift,
+  SiKotlin,
+  SiDocker,
+  SiKubernetes,
+  SiAmazonwebservices,
+  SiGooglecloud,
+  SiMongodb,
+  SiPostgresql,
+  SiMysql,
+  SiRedis,
+  SiGraphql,
+  SiApollographql,
+  SiRedux,
+  SiVuedotjs,
+  SiAngular,
+  SiNextdotjs,
+  SiExpress,
+  SiDjango,
+  SiFlask,
+  SiSpring,
+  SiTailwindcss,
+  SiBootstrap,
+  SiSass,
+  SiLess,
+  SiWebpack,
+  SiVite,
+  SiJest,
+  SiCypress,
+  SiGit,
+  SiGithub,
+  SiGitlab,
+  SiBitbucket,
+  SiFigma,
+  SiAdobexd,
+  SiFirebase,
+  SiSupabase,
+  SiVercel,
+  SiNetlify,
+  SiHeroku,
+  SiShopify,
+  SiWordpress,
+  SiDrupal,
+  SiHtml5,
+  SiCss3,
+} from 'react-icons/si';
 
 // Stable empty array reference
 const EMPTY_ARRAY: any[] = [];
@@ -38,137 +93,86 @@ export const Experience = () => {
           </div>
         ) : (
           experiences.map((exp: any, expIndex: number) => {
+          // Map technology identifiers to react-icons components
           const getTechIcon = (tech: string) => {
-            const icons: Record<string, { bg: string; icon: React.ReactNode }> = {
-              react: { 
-                bg: "bg-neutral-800 dark:bg-neutral-800", 
-                icon: (
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-white">
-                    <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
-                    <ellipse cx="12" cy="12" rx="11" ry="4.5" stroke="currentColor" strokeWidth="1.2" fill="none" opacity="0.8"/>
-                    <ellipse cx="12" cy="12" rx="11" ry="4.5" stroke="currentColor" strokeWidth="1.2" fill="none" opacity="0.8" transform="rotate(60 12 12)"/>
-                    <ellipse cx="12" cy="12" rx="11" ry="4.5" stroke="currentColor" strokeWidth="1.2" fill="none" opacity="0.8" transform="rotate(-60 12 12)"/>
-                  </svg>
-                )
-              },
-              typescript: { 
-                bg: "bg-blue-600", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">TS</span>
-                )
-              },
-              redux: { 
-                bg: "bg-purple-600", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">R</span>
-                )
-              },
-              graphql: { 
-                bg: "bg-pink-600", 
-                icon: (
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-white">
-                    <path d="M12.001 0c-2.4 0-4.4.8-6 2.4-1.6 1.6-2.4 3.6-2.4 6 0 2.4.8 4.4 2.4 6 1.6 1.6 3.6 2.4 6 2.4 2.4 0 4.4-.8 6-2.4 1.6-1.6 2.4-3.6 2.4-6 0-2.4-.8-4.4-2.4-6-1.6-1.6-3.6-2.4-6-2.4zm0 2.4c1.6 0 3 .4 4.2 1.2 1.2.8 2 2 2.4 3.6h-2.4c-.2-1-.8-1.8-1.8-2.4-1-.6-2.2-1-3.6-1-1.4 0-2.6.4-3.6 1-1 .6-1.6 1.4-1.8 2.4H5.4c.4-1.6 1.2-2.8 2.4-3.6 1.2-.8 2.6-1.2 4.2-1.2zm-6 6c.8 0 1.4.2 2 .6.6.4 1 .8 1.2 1.4h2.4c-.2-1-.8-1.8-1.8-2.4-1-.6-2.2-1-3.6-1-1.4 0-2.6.4-3.6 1-1 .6-1.6 1.4-1.8 2.4H3.4c.2-.6.6-1 1.2-1.4.6-.4 1.2-.6 2-.6zm12 0c.8 0 1.4.2 2 .6.6.4 1 .8 1.2 1.4h2.4c-.2-1-.8-1.8-1.8-2.4-1-.6-2.2-1-3.6-1-1.4 0-2.6.4-3.6 1-1 .6-1.6 1.4-1.8 2.4h2.4c.2-.6.6-1 1.2-1.4.6-.4 1.2-.6 2-.6zM6 13.2c-1.4 0-2.6.4-3.6 1-1 .6-1.6 1.4-1.8 2.4h2.4c.2-.6.6-1 1.2-1.4.6-.4 1.2-.6 2-.6.8 0 1.4.2 2 .6.6.4 1 .8 1.2 1.4h2.4c-.2-1-.8-1.8-1.8-2.4-1-.6-2.2-1-3.6-1zm12 0c-1.4 0-2.6.4-3.6 1-1 .6-1.6 1.4-1.8 2.4h2.4c.2-.6.6-1 1.2-1.4.6-.4 1.2-.6 2-.6.8 0 1.4.2 2 .6.6.4 1 .8 1.2 1.4h2.4c-.2-1-.8-1.8-1.8-2.4-1-.6-2.2-1-3.6-1zm-6 6c-2.4 0-4.4.8-6 2.4-1.6 1.6-2.4 3.6-2.4 6 0 2.4.8 4.4 2.4 6 1.6 1.6 3.6 2.4 6 2.4 2.4 0 4.4-.8 6-2.4 1.6-1.6 2.4-3.6 2.4-6 0-2.4-.8-4.4-2.4-6-1.6-1.6-3.6-2.4-6-2.4z"/>
-                  </svg>
-                )
-              },
-              jest: { 
-                bg: "bg-orange-500", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">J</span>
-                )
-              },
-              cypress: { 
-                bg: "bg-green-600", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">C</span>
-                )
-              },
-              javascript: { 
-                bg: "bg-yellow-500", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">JS</span>
-                )
-              },
-              azure: { 
-                bg: "bg-blue-500", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">A</span>
-                )
-              },
-              webrtc: { 
-                bg: "bg-green-500", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">W</span>
-                )
-              },
-              webpack: { 
-                bg: "bg-blue-400", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">W</span>
-                )
-              },
-              sass: { 
-                bg: "bg-pink-500", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">S</span>
-                )
-              },
-              "node.js": { 
-                bg: "bg-green-600", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">N</span>
-                )
-              },
-              nodejs: { 
-                bg: "bg-green-600", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">N</span>
-                )
-              },
-              express: { 
-                bg: "bg-gray-600", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">E</span>
-                )
-              },
-              mongodb: { 
-                bg: "bg-green-700", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">M</span>
-                )
-              },
-              "styled components": { 
-                bg: "bg-pink-500", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">SC</span>
-                )
-              },
-              html5: { 
-                bg: "bg-orange-500", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">5</span>
-                )
-              },
-              css3: { 
-                bg: "bg-blue-500", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">3</span>
-                )
-              },
-              scss: { 
-                bg: "bg-pink-500", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">S</span>
-                )
-              },
-              "shopify api": { 
-                bg: "bg-green-600", 
-                icon: (
-                  <span className="text-[8px] font-bold text-white">S</span>
-                )
-              },
+            const techLower = tech.toLowerCase().trim();
+            
+            // Map technology names to icon components and background colors
+            const iconMap: Record<string, { Icon: React.ComponentType<any>; bg: string }> = {
+              react: { Icon: SiReact, bg: "bg-[#61DAFB]" },
+              typescript: { Icon: SiTypescript, bg: "bg-[#3178C6]" },
+              javascript: { Icon: SiJavascript, bg: "bg-[#F7DF1E]" },
+              'node.js': { Icon: SiNodedotjs, bg: "bg-[#339933]" },
+              nodejs: { Icon: SiNodedotjs, bg: "bg-[#339933]" },
+              python: { Icon: SiPython, bg: "bg-[#3776AB]" },
+              go: { Icon: SiGo, bg: "bg-[#00ADD8]" },
+              rust: { Icon: SiRust, bg: "bg-[#000000]" },
+              php: { Icon: SiPhp, bg: "bg-[#777BB4]" },
+              ruby: { Icon: SiRuby, bg: "bg-[#CC342D]" },
+              swift: { Icon: SiSwift, bg: "bg-[#FA7343]" },
+              kotlin: { Icon: SiKotlin, bg: "bg-[#7F52FF]" },
+              docker: { Icon: SiDocker, bg: "bg-[#2496ED]" },
+              kubernetes: { Icon: SiKubernetes, bg: "bg-[#326CE5]" },
+    aws: { Icon: SiAmazonwebservices, bg: "bg-[#232F3E]" },
+    googlecloud: { Icon: SiGooglecloud, bg: "bg-[#4285F4]" },
+              mongodb: { Icon: SiMongodb, bg: "bg-[#47A248]" },
+              postgresql: { Icon: SiPostgresql, bg: "bg-[#336791]" },
+              mysql: { Icon: SiMysql, bg: "bg-[#4479A1]" },
+              redis: { Icon: SiRedis, bg: "bg-[#DC382D]" },
+              graphql: { Icon: SiGraphql, bg: "bg-[#E10098]" },
+              apollo: { Icon: SiApollographql, bg: "bg-[#311C87]" },
+              redux: { Icon: SiRedux, bg: "bg-[#764ABC]" },
+              vue: { Icon: SiVuedotjs, bg: "bg-[#4FC08D]" },
+              angular: { Icon: SiAngular, bg: "bg-[#DD0031]" },
+              nextjs: { Icon: SiNextdotjs, bg: "bg-[#000000]" },
+              'next.js': { Icon: SiNextdotjs, bg: "bg-[#000000]" },
+              express: { Icon: SiExpress, bg: "bg-[#000000]" },
+              django: { Icon: SiDjango, bg: "bg-[#092E20]" },
+              flask: { Icon: SiFlask, bg: "bg-[#000000]" },
+              spring: { Icon: SiSpring, bg: "bg-[#6DB33F]" },
+              tailwindcss: { Icon: SiTailwindcss, bg: "bg-[#06B6D4]" },
+              tailwind: { Icon: SiTailwindcss, bg: "bg-[#06B6D4]" },
+              bootstrap: { Icon: SiBootstrap, bg: "bg-[#7952B3]" },
+              sass: { Icon: SiSass, bg: "bg-[#CC6699]" },
+              scss: { Icon: SiSass, bg: "bg-[#CC6699]" },
+              less: { Icon: SiLess, bg: "bg-[#1D365D]" },
+              webpack: { Icon: SiWebpack, bg: "bg-[#8DD6F9]" },
+              vite: { Icon: SiVite, bg: "bg-[#646CFF]" },
+              jest: { Icon: SiJest, bg: "bg-[#C21325]" },
+              cypress: { Icon: SiCypress, bg: "bg-[#17202C]" },
+              git: { Icon: SiGit, bg: "bg-[#F05032]" },
+              github: { Icon: SiGithub, bg: "bg-[#181717]" },
+              gitlab: { Icon: SiGitlab, bg: "bg-[#FC6D26]" },
+              bitbucket: { Icon: SiBitbucket, bg: "bg-[#0052CC]" },
+              figma: { Icon: SiFigma, bg: "bg-[#F24E1E]" },
+              adobexd: { Icon: SiAdobexd, bg: "bg-[#FF61F6]" },
+              firebase: { Icon: SiFirebase, bg: "bg-[#FFCA28]" },
+              supabase: { Icon: SiSupabase, bg: "bg-[#3ECF8E]" },
+              vercel: { Icon: SiVercel, bg: "bg-[#000000]" },
+              netlify: { Icon: SiNetlify, bg: "bg-[#00C7B7]" },
+              heroku: { Icon: SiHeroku, bg: "bg-[#430098]" },
+              shopify: { Icon: SiShopify, bg: "bg-[#96BF48]" },
+              wordpress: { Icon: SiWordpress, bg: "bg-[#21759B]" },
+              drupal: { Icon: SiDrupal, bg: "bg-[#0678BE]" },
+              html5: { Icon: SiHtml5, bg: "bg-[#E34F26]" },
+              css3: { Icon: SiCss3, bg: "bg-[#1572B6]" },
             };
-            return icons[tech.toLowerCase()] || { bg: "bg-neutral-500", icon: <span className="text-[8px] font-bold text-white">•</span> };
+
+            const match = iconMap[techLower] || iconMap[techLower.replace(/\s+/g, '')];
+            
+            if (match) {
+              const { Icon, bg } = match;
+              return {
+                bg,
+                icon: <Icon className="text-white" size={14} />,
+              };
+            }
+
+            // Fallback for unknown technologies
+            return {
+              bg: "bg-neutral-500",
+              icon: <span className="text-[8px] font-bold text-white">•</span>,
+            };
           };
 
           return (

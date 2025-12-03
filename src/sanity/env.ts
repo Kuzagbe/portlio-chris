@@ -57,3 +57,15 @@ export const projectId =
 
 
 export const useCdn = false
+
+// Debug logging in browser
+if (typeof window !== 'undefined') {
+  console.log('🌍 Environment variables:', {
+    VITE_SANITY_PROJECT_ID: getEnv('VITE_SANITY_PROJECT_ID'),
+    VITE_SANITY_DATASET: getEnv('VITE_SANITY_DATASET'),
+    VITE_SANITY_API_VERSION: getEnv('VITE_SANITY_API_VERSION'),
+    projectId,
+    dataset,
+    apiVersion
+  })
+}

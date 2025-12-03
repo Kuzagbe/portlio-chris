@@ -22,7 +22,9 @@ function useSanityData<T>(
       try {
         setLoading(true)
         setError(null)
+        console.log('🔄 useSanityData: Starting fetch...')
         const result = await fetchFn()
+        console.log('📦 useSanityData: Result received:', result)
         
         if (!isMounted) return
         
@@ -30,20 +32,25 @@ function useSanityData<T>(
         if (result !== null && result !== undefined) {
           if (Array.isArray(result)) {
             // For arrays, use Sanity data even if empty
+            console.log('✅ useSanityData: Setting array data, length:', result.length)
             setData(result)
           } else if (result) {
             // For objects, use Sanity data
+            console.log('✅ useSanityData: Setting object data')
             setData(result)
           } else {
             // No data from Sanity - set to null/empty
+            console.log('⚠️ useSanityData: Result is falsy, setting empty')
             setData(Array.isArray(fallback) ? [] : null)
           }
         } else {
           // No data from Sanity - set to null/empty
+          console.log('⚠️ useSanityData: Result is null/undefined, setting empty')
           setData(Array.isArray(fallback) ? [] : null)
         }
       } catch (err) {
         if (!isMounted) return
+        console.error('❌ useSanityData: Error occurred:', err)
         const errorObj = err instanceof Error ? err : new Error(String(err))
         setError(errorObj)
         // On error, set to null/empty instead of fallback
@@ -52,6 +59,7 @@ function useSanityData<T>(
         if (isMounted) {
           setLoading(false)
           isFetching = false
+          console.log('🏁 useSanityData: Fetch complete, loading:', false)
         }
       }
     }
