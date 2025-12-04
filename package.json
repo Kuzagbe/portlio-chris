@@ -11,6 +11,7 @@
     "deploy:studio": "sanity deploy"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@portabletext/react": "^5.0.0",
     "@radix-ui/react-label": "^2.1.8",
     "@tabler/icons-react": "^3.35.0",

@@ -166,14 +166,14 @@ export async function getContact() {
   }
 }
 
-// Testimonials query - returns image objects
+// Testimonials query - returns image objects (same pattern as projects)
 export async function getTestimonials() {
   try {
     if (!isSanityConfigured()) {
       console.warn('Sanity not configured, returning empty array')
       return []
     }
-    return await client.fetch(groq`*[_type == "testimonial"] {
+    return await client.fetch(groq`*[_type == "testimonial"] | order(_createdAt desc) {
       _id,
       name,
       text,
