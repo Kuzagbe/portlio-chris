@@ -150,12 +150,20 @@ const getTechIcon = (tag: string) => {
 // Stable empty array reference to prevent re-renders
 const EMPTY_ARRAY: any[] = [];
 
-export const Projects = () => {
+interface ProjectsProps {
+  limit?: number;
+}
+
+export const Projects = ({ limit }: ProjectsProps = {}) => {
   const headingWords = ["I", "love", "building", "things"];
   const { data: projectsData, loading, error } = useSanityProjects(EMPTY_ARRAY);
   
   // Use Sanity data only - no fallback to dummy data
-  const projects = Array.isArray(projectsData) ? projectsData : [];
+  // Limit to specified number if provided
+  const projects = React.useMemo(() => {
+    const allProjects = Array.isArray(projectsData) ? projectsData : [];
+    return limit ? allProjects.slice(0, limit) : allProjects;
+  }, [projectsData, limit]);
 
   return (
     <section 

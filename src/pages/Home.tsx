@@ -58,7 +58,7 @@ export default function HomePage() {
            <div className="relative z-10">
              <SectionDivider />
            </div>
-           <Projects />
+           <Projects limit={3} />
            <SectionDivider />
            <Blog />
            <SectionDivider />
