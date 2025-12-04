@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer";
 import { FloatingNav } from "@/components/floating-nav";
 import { Testimonials } from "@/components/testimonials";
 import { SectionDivider } from "@/components/section-divider";
+import { AbstractDesign } from "@/components/abstract-design";
 
 export default function HomePage() {
   return (
@@ -51,7 +52,12 @@ export default function HomePage() {
 
         <div className="px-4 sm:px-6 md:px-8 lg:px-12 pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 relative z-10">
            <Hero />
-           <SectionDivider />
+           <div className="relative" style={{ height: "1px", margin: "0" }}>
+             <AbstractDesign />
+           </div>
+           <div className="relative z-10">
+             <SectionDivider />
+           </div>
            <Projects />
            <SectionDivider />
            <Blog />

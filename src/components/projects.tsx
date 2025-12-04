@@ -160,14 +160,37 @@ export const Projects = () => {
   return (
     <section 
       id="projects" 
-      className="py-6 sm:py-8 md:py-10 border-b border-neutral-100 dark:border-neutral-800"
+      className="py-6 sm:py-8 md:py-10 border-b border-neutral-100 dark:border-neutral-800 relative overflow-hidden"
     >
        <div className="flex items-start gap-4 mb-6 sm:mb-8">
-        <div className="inline-flex px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md">
-           <h2 className="text-sm sm:text-base font-normal leading-5 sm:leading-6 text-[#262626] dark:text-white">
-             {headingWords.join(" ")}
-           </h2>
-        </div>
+        <motion.div 
+          className="inline-flex px-3 py-1.5 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 border border-blue-200/50 dark:border-blue-800/50 rounded-lg backdrop-blur-sm shadow-sm"
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+           <motion.h2 
+             className="text-sm sm:text-base font-normal leading-5 sm:leading-6 text-[#262626] dark:text-white"
+             initial={{ opacity: 0 }}
+             whileInView={{ opacity: 1 }}
+             viewport={{ once: true }}
+             transition={{ delay: 0.2 }}
+           >
+             {headingWords.map((word, i) => (
+               <motion.span
+                 key={i}
+                 className="inline-block mr-1"
+                 initial={{ opacity: 0, y: -10 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true }}
+                 transition={{ delay: 0.3 + i * 0.1, type: "spring", stiffness: 200 }}
+               >
+                 {word}
+               </motion.span>
+             ))}
+           </motion.h2>
+        </motion.div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
@@ -194,17 +217,25 @@ export const Projects = () => {
             return (
               <motion.div 
                 key={project._id} 
-                className="flex flex-col gap-3 sm:gap-4 cursor-pointer group"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                className="flex flex-col gap-3 sm:gap-4 cursor-pointer group relative"
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                whileHover={{ y: -4 }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 15
+                }}
+                whileHover={{ y: -8, scale: 1.02 }}
               >
-                {/* Project Image */}
+                {/* Project Image Container with glassmorphism */}
                 <motion.div 
-                  className="relative w-full h-40 sm:h-44 md:h-48 rounded-lg sm:rounded-xl overflow-hidden bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800"
-                  whileHover={{ scale: 1.02 }}
+                  className="relative w-full h-40 sm:h-44 md:h-48 rounded-xl overflow-hidden bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-800 border border-neutral-200/50 dark:border-neutral-700/50 shadow-lg group-hover:shadow-2xl transition-all duration-300"
+                  whileHover={{ 
+                    scale: 1.03,
+                  }}
                   transition={{ duration: 0.3 }}
                 >
                   {imageUrl && (
@@ -214,62 +245,101 @@ export const Projects = () => {
                       width={256}
                       height={180}
                       className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      initial={{ scale: 1.1 }}
+                      whileHover={{ scale: 1.15 }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
                       loading="lazy"
                     />
                   )}
-                  {/* Overlay gradient on hover */}
+                  
+                  {/* Animated overlay gradient */}
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100"
-                    transition={{ duration: 0.3 }}
+                    className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100"
+                    transition={{ duration: 0.4 }}
                   />
+                  
+                  {/* Shine effect on hover */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                  />
+                  
+                  {/* Project link indicator */}
+                  <motion.div
+                    className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 shadow-lg"
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileHover={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                  >
+                    <svg className="w-4 h-4 text-neutral-700 dark:text-neutral-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </motion.div>
                 </motion.div>
                 
-                {/* Project Info */}
+                {/* Project Info with enhanced styling */}
                 <motion.div 
-                  className="flex flex-col gap-2"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
+                  className="flex flex-col gap-2 px-1"
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 + 0.2 }}
+                  transition={{ delay: index * 0.1 + 0.3, duration: 0.4 }}
                 >
                   <motion.h3 
-                    className="text-sm sm:text-base font-medium leading-5 sm:leading-6 text-[#262626] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors"
-                    whileHover={{ x: 2 }}
+                    className="text-sm sm:text-base font-semibold leading-5 sm:leading-6 text-[#262626] dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-all duration-300"
+                    whileHover={{ x: 4 }}
                   >
                     {project.title}
                   </motion.h3>
-                  <p className="text-xs sm:text-sm font-normal leading-4 sm:leading-5 text-[#737373] dark:text-neutral-400 line-clamp-2">
+                  <motion.p 
+                    className="text-xs sm:text-sm font-normal leading-4 sm:leading-5 text-[#737373] dark:text-neutral-400 line-clamp-2"
+                    initial={{ opacity: 0.7 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     {project.description}
-                  </p>
+                  </motion.p>
                   
-                  {/* Technology Icons */}
+                  {/* Technology Icons with enhanced animations */}
                   {project.tags && project.tags.length > 0 && (
-                    <div className="flex gap-0 mt-2 flex-wrap">
+                    <motion.div 
+                      className="flex gap-0 mt-3 flex-wrap"
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 + 0.4 }}
+                    >
                       {project.tags.map((tag: string, tagIndex: number) => {
                         const { bg, icon } = getTechIcon(tag);
                         return (
                           <motion.div
                             key={`${project._id}-${tag}-${tagIndex}`}
-                            className={`h-6 w-6 rounded-full ${bg} border border-neutral-300 dark:border-neutral-600 flex items-center justify-center ${tagIndex > 0 ? '-ml-2' : ''}`}
+                            className={`h-7 w-7 rounded-full ${bg} border-2 border-white/50 dark:border-neutral-800/50 flex items-center justify-center shadow-md ${tagIndex > 0 ? '-ml-2' : ''} group/icon`}
                             style={{ zIndex: project.tags.length - tagIndex }}
-                            initial={{ scale: 0 }}
-                            whileInView={{ scale: 1 }}
+                            initial={{ scale: 0, rotate: -180 }}
+                            whileInView={{ scale: 1, rotate: 0 }}
                             viewport={{ once: true }}
                             transition={{ 
-                              delay: index * 0.1 + 0.3 + tagIndex * 0.05,
+                              delay: index * 0.1 + 0.5 + tagIndex * 0.08,
                               type: "spring",
                               stiffness: 200,
                               damping: 15
                             }}
-                            whileHover={{ scale: 1.2, rotate: 5 }}
+                            whileHover={{ 
+                              scale: 1.4, 
+                              rotate: [0, -10, 10, -10, 0],
+                              zIndex: 50,
+                              y: -4
+                            }}
+                            whileTap={{ scale: 0.9 }}
                           >
                             {icon}
                           </motion.div>
                         );
                       })}
-                    </div>
+                    </motion.div>
                   )}
                 </motion.div>
               </motion.div>
