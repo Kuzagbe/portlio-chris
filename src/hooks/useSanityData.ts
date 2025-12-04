@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { getProjects, getPosts, getExperiences, getHero, getAbout, getContact, getTestimonials, getTimeline } from '@/sanity/lib/queries'
+import { getProjects, getPosts, getExperiences, getHero, getAbout, getContact, getTestimonials, getTimeline, getMobileInteractions } from '@/sanity/lib/queries'
 
 // Generic hook for fetching Sanity data
 function useSanityData<T>(
@@ -112,5 +112,10 @@ export function useSanityTestimonials(fallback: any[] = []) {
 
 export function useSanityTimeline(fallback: any[] = []) {
   const fetchFn = useCallback(() => getTimeline(), [])
+  return useSanityData(fetchFn, fallback)
+}
+
+export function useSanityMobileInteractions(fallback: any[] = []) {
+  const fetchFn = useCallback(() => getMobileInteractions(), [])
   return useSanityData(fetchFn, fallback)
 }

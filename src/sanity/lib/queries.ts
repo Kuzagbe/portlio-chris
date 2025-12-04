@@ -201,3 +201,24 @@ export async function getTimeline() {
     return []
   }
 }
+
+// Mobile interactions query
+export async function getMobileInteractions() {
+  try {
+    if (!isSanityConfigured()) {
+      console.warn('⚠️ Sanity not configured, returning empty array')
+      return []
+    }
+    console.log('🔄 Fetching mobile interactions from Sanity...')
+    return await client.fetch(groq`*[_type == "mobileInteraction"] | order(order asc, year desc, _createdAt asc) [0...15] {
+      _id,
+      name,
+      year,
+      videoUrl,
+      order
+    }`)
+  } catch (error) {
+    console.error('❌ Error fetching mobile interactions:', error)
+    return []
+  }
+}

@@ -7,8 +7,9 @@ import about from './about'
 import contact from './contact'
 import testimonial from './testimonial'
 import timeline from './timeline'
+import mobileInteraction from './mobileInteraction'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [project, post, experience, hero, about, contact, testimonial, timeline],
+  types: [project, post, experience, hero, about, contact, testimonial, timeline, mobileInteraction],
 }
 

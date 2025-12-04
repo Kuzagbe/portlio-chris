@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { FloatingNav } from "@/components/floating-nav";
 import { Footer } from "@/components/footer";
 import { SectionDivider } from "@/components/section-divider";
+import { MobileInteractions } from "@/components/mobile-interactions";
 import { useSanityProjects } from "@/hooks/useSanityData";
 import { urlForImage } from "@/sanity/lib/image";
 import {
@@ -376,6 +377,13 @@ export default function ProjectsPage() {
               })
               )}
             </div>
+          </div>
+
+          <SectionDivider />
+
+          {/* Mobile Interactions Section */}
+          <div className="pt-10 pb-6 px-4">
+            <MobileInteractions />
           </div>
         </div>
 
