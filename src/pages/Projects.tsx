@@ -302,14 +302,22 @@ export default function ProjectsPage() {
                   : '';
                 
                 return (
-                <motion.div
+                <motion.a
                     key={project._id}
-                  className="w-full pb-4 flex flex-col cursor-pointer group"
+                  href={project.link || '#'}
+                  target={project.link ? "_blank" : undefined}
+                  rel={project.link ? "noopener noreferrer" : undefined}
+                  className="w-full pb-4 flex flex-col cursor-pointer group no-underline"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   whileHover={{ y: -4 }}
+                  onClick={(e) => {
+                    if (!project.link) {
+                      e.preventDefault();
+                    }
+                  }}
                   >
                     <div className="flex flex-col">
                     <motion.div 
@@ -382,7 +390,7 @@ export default function ProjectsPage() {
                       )}
                     </motion.div>
                   </div>
-                </motion.div>
+                </motion.a>
                 );
               })
               )}
