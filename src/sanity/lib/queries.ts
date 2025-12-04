@@ -12,7 +12,7 @@ export async function getProjects() {
     }
     
     console.log('🔄 Fetching projects from Sanity...')
-    const projects = await client.fetch(groq`*[_type == "project"] | order(_createdAt desc) {
+    const projects = await client.fetch(groq`*[_type == "project"] | order(coalesce(order, 9999) asc, _createdAt desc) {
       _id,
       title,
       slug,
@@ -20,7 +20,8 @@ export async function getProjects() {
       mainImage,
       link,
       tags,
-      category
+      category,
+      order
     }`)
     console.log('✅ Projects fetched:', projects.length, 'items')
     return projects
@@ -84,14 +85,15 @@ export async function getExperiences() {
       console.warn('Sanity not configured, returning empty array')
       return []
     }
-    return await client.fetch(groq`*[_type == "experience"] | order(_createdAt desc) {
+    return await client.fetch(groq`*[_type == "experience"] | order(coalesce(order, 9999) asc, _createdAt desc) {
       _id,
       company,
       companyLogo,
       role,
       duration,
       description,
-      technologies
+      technologies,
+      order
     }`)
   } catch (error) {
     console.error('Error fetching experiences:', error)

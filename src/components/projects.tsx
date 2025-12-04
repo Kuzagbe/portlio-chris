@@ -215,9 +215,12 @@ export const Projects = () => {
               : '';
 
             return (
-              <motion.div 
-                key={project._id} 
-                className="flex flex-col gap-3 sm:gap-4 cursor-pointer group relative"
+              <motion.a
+                key={project._id}
+                href={project.link || '#'}
+                target={project.link ? "_blank" : undefined}
+                rel={project.link ? "noopener noreferrer" : undefined}
+                className="flex flex-col gap-3 sm:gap-4 cursor-pointer group relative no-underline"
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -229,6 +232,11 @@ export const Projects = () => {
                   damping: 15
                 }}
                 whileHover={{ y: -8, scale: 1.02 }}
+                onClick={(e) => {
+                  if (!project.link) {
+                    e.preventDefault();
+                  }
+                }}
               >
                 {/* Project Image Container with glassmorphism */}
                 <motion.div 
@@ -342,7 +350,7 @@ export const Projects = () => {
                     </motion.div>
                   )}
                 </motion.div>
-              </motion.div>
+              </motion.a>
             );
           })
         )}

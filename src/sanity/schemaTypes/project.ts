@@ -125,6 +125,25 @@ export default defineType({
       validation: (Rule) => Rule.required(),
       description: 'Select the category this project falls under.',
     }),
+    defineField({
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Lower numbers appear first. Leave empty to use creation date.',
+      validation: (Rule) => Rule.min(0),
+    }),
+  ],
+  orderings: [
+    {
+      title: 'Order (Low to High)',
+      name: 'orderAsc',
+      by: [{ field: 'order', direction: 'asc' }],
+    },
+    {
+      title: 'Created Date (Newest)',
+      name: 'createdDesc',
+      by: [{ field: '_createdAt', direction: 'desc' }],
+    },
   ],
 })
 
