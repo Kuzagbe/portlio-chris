@@ -13,6 +13,33 @@ interface MobileInteraction {
 // Stable empty array reference
 const EMPTY_ARRAY: any[] = [];
 
+// Helper function to check if URL is YouTube
+const isYouTubeUrl = (url: string): boolean => {
+  return /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/.test(url);
+};
+
+// Helper function to convert YouTube URL to embed format
+const getYouTubeEmbedUrl = (url: string): string => {
+  const regExp = /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  const videoId = match && match[1] ? match[1] : null;
+  
+  if (!videoId) return url;
+  
+  // Extract timestamp if present (t=31s)
+  const timeMatch = url.match(/[?&]t=(\d+)s?/);
+  const timestamp = timeMatch ? timeMatch[1] : null;
+  
+  let embedUrl = `https://www.youtube.com/embed/${videoId}`;
+  if (timestamp) {
+    embedUrl += `?start=${timestamp}&autoplay=1&loop=1&mute=1&controls=0&playsinline=1`;
+  } else {
+    embedUrl += `?autoplay=1&loop=1&mute=1&controls=0&playsinline=1`;
+  }
+  
+  return embedUrl;
+};
+
 export const MobileInteractions = () => {
   const { data: interactionsData, loading, error } = useSanityMobileInteractions(EMPTY_ARRAY);
   
@@ -163,29 +190,41 @@ export const MobileInteractions = () => {
                       {/* Video Container */}
                       <div className="aspect-[9/19.5] bg-gradient-to-br from-blue-50 to-purple-50 dark:from-neutral-800 dark:to-neutral-900 flex items-center justify-center relative overflow-hidden">
                         {selectedInteraction.videoUrl && selectedInteraction.videoUrl.trim() !== '' ? (
-                          <video
-                            ref={videoRef}
-                            key={selectedInteraction.videoUrl}
-                            src={selectedInteraction.videoUrl}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            preload="auto"
-                            className="w-full h-full object-cover"
-                            style={{ display: 'block' }}
-                            onLoadedData={(e) => {
-                              const video = e.target as HTMLVideoElement;
-                              video.play().catch(error => {
-                                console.error('Error auto-playing video:', error);
-                              });
-                            }}
-                            onError={(e) => {
-                              console.error('Video failed to load:', selectedInteraction.videoUrl);
-                              const target = e.target as HTMLVideoElement;
-                              target.style.display = 'none';
-                            }}
-                          />
+                          isYouTubeUrl(selectedInteraction.videoUrl) ? (
+                            <iframe
+                              key={selectedInteraction.videoUrl}
+                              src={getYouTubeEmbedUrl(selectedInteraction.videoUrl)}
+                              className="w-full h-full"
+                              style={{ border: 'none' }}
+                              allow="autoplay; encrypted-media"
+                              allowFullScreen
+                              title={selectedInteraction.name}
+                            />
+                          ) : (
+                            <video
+                              ref={videoRef}
+                              key={selectedInteraction.videoUrl}
+                              src={selectedInteraction.videoUrl}
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              preload="auto"
+                              className="w-full h-full object-cover"
+                              style={{ display: 'block' }}
+                              onLoadedData={(e) => {
+                                const video = e.target as HTMLVideoElement;
+                                video.play().catch(error => {
+                                  console.error('Error auto-playing video:', error);
+                                });
+                              }}
+                              onError={(e) => {
+                                console.error('Video failed to load:', selectedInteraction.videoUrl);
+                                const target = e.target as HTMLVideoElement;
+                                target.style.display = 'none';
+                              }}
+                            />
+                          )
                         ) : (
                           <div className="text-center p-8 w-full h-full flex flex-col items-center justify-center">
                             <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
