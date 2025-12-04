@@ -20,6 +20,7 @@ export async function getProjects() {
       mainImage,
       link,
       tags,
+      categories,
       category,
       order
     }`)

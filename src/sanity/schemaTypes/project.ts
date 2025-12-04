@@ -111,8 +111,28 @@ export default defineType({
       description: 'Select technologies used in this project. Start typing to see suggestions with icons.',
     }),
     defineField({
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      of: [
+        {
+          type: 'string',
+          options: {
+            list: [
+              { value: 'ux-design', title: 'UX Design' },
+              { value: 'ux-engineering', title: 'UX Engineering' },
+              { value: 'product-management', title: 'Product Management' },
+            ],
+          },
+        },
+      ],
+      validation: (Rule) => Rule.min(1),
+      description: 'Select one or more categories this project falls under.',
+    }),
+    // Legacy field for backward compatibility - will be removed in future
+    defineField({
       name: 'category',
-      title: 'Category',
+      title: 'Category (Legacy)',
       type: 'string',
       options: {
         list: [
@@ -122,8 +142,8 @@ export default defineType({
         ],
         layout: 'radio',
       },
-      validation: (Rule) => Rule.required(),
-      description: 'Select the category this project falls under.',
+      hidden: true, // Hide from UI but keep in schema for backward compatibility
+      description: 'Legacy field - use Categories instead. This field is kept for backward compatibility.',
     }),
     defineField({
       name: 'order',

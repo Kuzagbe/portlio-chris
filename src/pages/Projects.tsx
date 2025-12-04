@@ -166,7 +166,17 @@ export default function ProjectsPage() {
     if (selectedCategory === 'all') {
       return allProjects;
     }
-    return allProjects.filter((project: any) => project.category === selectedCategory);
+    return allProjects.filter((project: any) => {
+      // Check new categories array first
+      if (project.categories && Array.isArray(project.categories)) {
+        return project.categories.includes(selectedCategory);
+      }
+      // Fall back to legacy category field for backward compatibility
+      if (project.category) {
+        return project.category === selectedCategory;
+      }
+      return false;
+    });
   }, [allProjects, selectedCategory]);
   
   const categories = [
