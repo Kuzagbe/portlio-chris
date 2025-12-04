@@ -176,7 +176,7 @@ export const Hero = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 mb-6 sm:mb-8 w-full">
         <div className="flex flex-col">
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[36px] font-bold leading-tight sm:leading-[36px] md:leading-[40px] text-[#262626] dark:text-white inline-flex flex-wrap">
-            {nameCharacters.map((char, index) => (
+            {nameCharacters.map((char: string, index: number) => (
               <AnimatedLetter
                 key={`${char}-${index}`}
                 letter={char}
