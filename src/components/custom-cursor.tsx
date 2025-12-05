@@ -87,7 +87,7 @@ export const CustomCursor = () => {
       x: mousePosition.x,
       y: mousePosition.y,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         mass: 0.6,
       },
     },
@@ -101,7 +101,7 @@ export const CustomCursor = () => {
       x: mousePosition.x - 32,
       y: mousePosition.y - 32,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 500,
         damping: 28,
       },
@@ -116,7 +116,7 @@ export const CustomCursor = () => {
       x: mousePosition.x - 32,
       y: mousePosition.y - 32,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 500,
         damping: 28,
       },
@@ -130,7 +130,7 @@ export const CustomCursor = () => {
       x: mousePosition.x - 10,
       y: mousePosition.y - 10,
       transition: {
-        type: 'spring',
+        type: 'spring' as const,
         stiffness: 500,
         damping: 28,
       },
@@ -138,7 +138,7 @@ export const CustomCursor = () => {
   };
 
   const spring = {
-    type: 'spring',
+    type: 'spring' as const,
     stiffness: 500,
     damping: 28,
   };
