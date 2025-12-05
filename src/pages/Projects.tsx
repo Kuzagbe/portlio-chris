@@ -307,6 +307,7 @@ export default function ProjectsPage() {
                   href={project.link || '#'}
                   target={project.link ? "_blank" : undefined}
                   rel={project.link ? "noopener noreferrer" : undefined}
+                  data-cursor="project"
                   className="w-full pb-4 flex flex-col cursor-pointer group no-underline"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -326,22 +327,26 @@ export default function ProjectsPage() {
                       transition={{ duration: 0.3 }}
                     >
                       {imageUrl && (
-                        <motion.img
-                          src={imageUrl}
-                          alt={project.title || 'Project'}
-                          width={256}
-                          height={180}
-                          className="w-full h-full object-cover rounded-lg sm:rounded-xl"
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ duration: 0.4, ease: "easeOut" }}
-                          loading="lazy"
-                        />
+                        <>
+                          <motion.img
+                            src={imageUrl}
+                            alt={project.title || 'Project'}
+                            width={256}
+                            height={180}
+                            className="w-full h-full object-cover rounded-lg sm:rounded-xl"
+                            whileHover={{ scale: 1.05 }}
+                            transition={{ duration: 0.3, ease: [0.87, 0, 0.13, 1] }}
+                            loading="lazy"
+                          />
+                          {/* Gold/Black gradient overlay */}
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-br from-yellow-600/20 via-transparent to-black/40 opacity-0 group-hover:opacity-100 rounded-lg sm:rounded-xl"
+                            initial={{ opacity: 0 }}
+                            whileHover={{ opacity: 1 }}
+                            transition={{ duration: 0.3 }}
+                          />
+                        </>
                       )}
-                      {/* Overlay gradient on hover */}
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100"
-                        transition={{ duration: 0.3 }}
-                      />
                     </motion.div>
                     <motion.div 
                       className="pt-3 sm:pt-4 pb-2 sm:pb-4 flex flex-col justify-between gap-3 sm:gap-4"

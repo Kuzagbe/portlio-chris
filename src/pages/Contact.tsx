@@ -269,6 +269,7 @@ export default function ContactPage() {
               <div className="pt-2">
                 <button
                   type="submit"
+                  data-cursor="contact"
                   disabled={isSubmitting}
                   className="w-full sm:w-auto rounded-md border border-neutral-200 dark:border-neutral-700 bg-neutral-100 dark:bg-neutral-800 px-6 sm:px-8 py-3 sm:py-2.5 text-base sm:text-sm font-medium text-neutral-700 dark:text-neutral-200 shadow-[0px_4px_8px_0px_var(--color-neutral-200)_inset] dark:shadow-[0px_4px_8px_0px_var(--color-neutral-700)_inset] transition-all hover:bg-neutral-200 dark:hover:bg-neutral-700 hover:shadow-[0px_2px_4px_0px_var(--color-neutral-200)_inset] dark:hover:shadow-[0px_2px_4px_0px_var(--color-neutral-700)_inset] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                 >

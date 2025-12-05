@@ -154,6 +154,7 @@ export const Contact = () => {
           />
           <button 
             type="submit"
+            data-cursor="contact"
             disabled={isSubmitting}
             className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 px-2 sm:px-4 py-1 sm:py-1.5 bg-neutral-100 dark:bg-neutral-800 text-xs sm:text-sm font-normal leading-4 sm:leading-5 text-[#404040] dark:text-neutral-200 rounded-md border border-neutral-200 dark:border-neutral-700 shadow-inner whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors"
           >

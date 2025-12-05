@@ -1,3 +1,4 @@
+import React from "react";
 import { Hero } from "@/components/hero";
 import { Projects } from "@/components/projects";
 import { Experience } from "@/components/experience";
@@ -8,9 +9,43 @@ import { FloatingNav } from "@/components/floating-nav";
 import { Testimonials } from "@/components/testimonials";
 import { SectionDivider } from "@/components/section-divider";
 import { AbstractDesign } from "@/components/abstract-design";
+import { AppleIntro } from "@/components/apple-intro";
+
+// Module-level flag to track if intro has been shown in this page load session
+// This resets on page refresh but persists across route navigations
+let introShownThisSession = false;
 
 export default function HomePage() {
+  const [showIntro, setShowIntro] = React.useState(false);
+  const hasCheckedIntro = React.useRef(false);
+
+  React.useEffect(() => {
+    // Only check once per mount
+    if (hasCheckedIntro.current) return;
+    hasCheckedIntro.current = true;
+
+    // Show intro only if it hasn't been shown in this session yet
+    // This will be true on page load/refresh (module resets)
+    // This will be false on route navigation (module persists)
+    if (!introShownThisSession) {
+      setShowIntro(true);
+      introShownThisSession = true;
+    }
+  }, []);
+
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+  };
+
   return (
+    <>
+      {showIntro && (
+        <AppleIntro
+          onComplete={handleIntroComplete}
+          logo="CK"
+          tagline="Building digital experiences"
+        />
+      )}
     <main className="min-h-screen flex flex-col items-center font-sans dark:bg-[#0a0a0a] bg-neutral-100">
       <div className="w-full max-w-[896px] relative flex flex-col shadow-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 dark:bg-[#171717] bg-white">
         
@@ -72,6 +107,7 @@ export default function HomePage() {
         <Footer />
       </div>
     </main>
+    </>
   );
 }
 

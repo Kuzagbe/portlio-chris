@@ -201,7 +201,7 @@ export const Projects = ({ limit }: ProjectsProps = {}) => {
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8" data-cursor-hover>
         {loading ? (
           <div className="col-span-full text-center text-sm text-neutral-500 dark:text-neutral-400 py-8">
             Loading projects...
@@ -228,6 +228,7 @@ export const Projects = ({ limit }: ProjectsProps = {}) => {
                 href={project.link || '#'}
                 target={project.link ? "_blank" : undefined}
                 rel={project.link ? "noopener noreferrer" : undefined}
+                data-cursor="project"
                 className="flex flex-col gap-3 sm:gap-4 cursor-pointer group relative no-underline"
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
@@ -255,17 +256,26 @@ export const Projects = ({ limit }: ProjectsProps = {}) => {
                   transition={{ duration: 0.3 }}
                 >
                   {imageUrl && (
-                    <motion.img
-                      src={imageUrl}
-                      alt={project.title || 'Project'}
-                      width={256}
-                      height={180}
-                      className="w-full h-full object-cover"
-                      initial={{ scale: 1.1 }}
-                      whileHover={{ scale: 1.15 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                      loading="lazy"
-                    />
+                    <>
+                      <motion.img
+                        src={imageUrl}
+                        alt={project.title || 'Project'}
+                        width={256}
+                        height={180}
+                        className="w-full h-full object-cover"
+                        initial={{ scale: 1.1 }}
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.3, ease: [0.87, 0, 0.13, 1] }}
+                        loading="lazy"
+                      />
+                      {/* Gold/Black gradient overlay */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-br from-yellow-600/20 via-transparent to-black/40 opacity-0 group-hover:opacity-100"
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </>
                   )}
                   
                   {/* Animated overlay gradient */}
