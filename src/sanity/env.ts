@@ -11,28 +11,19 @@ if (typeof window === 'undefined' && typeof process !== 'undefined' && typeof pr
 }
 
 // Get environment variable - works in both contexts
+// Prioritize process.env to avoid CJS build issues with import.meta
 function getEnv(key: string, fallback?: string): string | undefined {
-  // In Vite/browser context, try to access import.meta.env first
-  try {
-    // @ts-ignore - import.meta exists in ESM/Vite
-    if (import.meta && import.meta.env) {
-      // @ts-ignore
-      const value = import.meta.env[key];
-      if (value !== undefined && value !== null && value !== '') {
-        return value;
-      }
-    }
-  } catch (e) {
-    // Silently fail - will fall back to process.env
-  }
-  
-  // Fall back to process.env (only available in Node.js context)
+  // Try process.env first (works in both Node.js build and browser via dotenv)
   if (typeof process !== 'undefined' && process.env) {
     const value = process.env[key];
     if (value !== undefined && value !== null && value !== '') {
       return value;
     }
   }
+  
+  // Note: import.meta.env is only available in Vite/browser ESM context
+  // During Sanity Studio build (CJS), we skip this to avoid parsing errors
+  // The process.env values (loaded via dotenv) should be sufficient
   
   return fallback;
 }

@@ -1,22 +1,15 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
+import { codeInput } from '@sanity/code-input'
 import { schema } from './src/sanity/schemaTypes'
 
 // Read environment variables
-// Vite automatically exposes VITE_* variables via import.meta.env
-// We also check process.env as a fallback (available during build/Node.js context)
+// During Sanity Studio build/deploy, we're in Node.js context (process.env)
+// We use process.env only to avoid CJS/ESM compatibility issues with import.meta
 
-// @ts-ignore - import.meta exists in ESM/Vite
 const getEnvVar = (key: string): string | undefined => {
-  // Try import.meta.env first (browser/Vite context)
-  // @ts-ignore
-  if (import.meta.env && import.meta.env[key]) {
-    // @ts-ignore
-    return import.meta.env[key];
-  }
-  
-  // Fall back to process.env (Node.js/build context)
-  if (typeof process !== 'undefined' && process.env[key]) {
+  // Use process.env (works in both Node.js build and browser via dotenv)
+  if (typeof process !== 'undefined' && process.env && process.env[key]) {
     return process.env[key];
   }
   
@@ -49,5 +42,6 @@ export default defineConfig({
   schema,
   plugins: [
     structureTool(),
+    codeInput(),
   ],
 })

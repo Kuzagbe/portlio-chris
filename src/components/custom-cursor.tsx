@@ -1,28 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'motion/react';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion } from 'motion/react';
 
 type CursorVariant = 'default' | 'project' | 'contact' | 'link';
 
 export const CustomCursor = () => {
   const [cursorText, setCursorText] = useState('');
   const [cursorVariant, setCursorVariant] = useState<CursorVariant>('default');
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isMounted, setIsMounted] = useState(false);
-
-  // Motion values for cursor position
-  const cursorX = useMotionValue(0);
-  const cursorY = useMotionValue(0);
-
-  // Spring physics for smooth cursor movement
-  const springConfig = { damping: 28, stiffness: 500, mass: 0.6 };
-  const springX = useSpring(cursorX, springConfig);
-  const springY = useSpring(cursorY, springConfig);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMounted(true);
     
     const updateMousePosition = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
+      setMousePosition({ x: e.clientX, y: e.clientY });
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -69,8 +61,10 @@ export const CustomCursor = () => {
 
     // Initialize cursor position
     if (typeof window !== 'undefined') {
-      cursorX.set(window.innerWidth / 2);
-      cursorY.set(window.innerHeight / 2);
+      setMousePosition({ 
+        x: window.innerWidth / 2, 
+        y: window.innerHeight / 2 
+      });
     }
 
     window.addEventListener('mousemove', updateMousePosition);
@@ -80,9 +74,9 @@ export const CustomCursor = () => {
       window.removeEventListener('mousemove', updateMousePosition);
       document.removeEventListener('mouseover', handleMouseOver, true);
     };
-  }, [cursorX, cursorY]);
+  }, []);
 
-  // Cursor variants
+  // Cursor variants - matching the example pattern
   const variants = {
     default: {
       opacity: 1,
@@ -90,8 +84,8 @@ export const CustomCursor = () => {
       width: 10,
       fontSize: '16px',
       backgroundColor: '#1e91d6',
-      x: 0,
-      y: 0,
+      x: mousePosition.x,
+      y: mousePosition.y,
       transition: {
         type: 'spring',
         mass: 0.6,
@@ -104,8 +98,8 @@ export const CustomCursor = () => {
       height: 80,
       width: 80,
       fontSize: '18px',
-      x: -32,
-      y: -32,
+      x: mousePosition.x - 32,
+      y: mousePosition.y - 32,
       transition: {
         type: 'spring',
         stiffness: 500,
@@ -119,8 +113,8 @@ export const CustomCursor = () => {
       height: 64,
       width: 64,
       fontSize: '32px',
-      x: -32,
-      y: -32,
+      x: mousePosition.x - 32,
+      y: mousePosition.y - 32,
       transition: {
         type: 'spring',
         stiffness: 500,
@@ -133,14 +127,20 @@ export const CustomCursor = () => {
       height: 20,
       width: 20,
       fontSize: '16px',
-      x: -10,
-      y: -10,
+      x: mousePosition.x - 10,
+      y: mousePosition.y - 10,
       transition: {
         type: 'spring',
         stiffness: 500,
         damping: 28,
       },
     },
+  };
+
+  const spring = {
+    type: 'spring',
+    stiffness: 500,
+    damping: 28,
   };
 
   if (!isMounted) return null;
@@ -156,18 +156,12 @@ export const CustomCursor = () => {
         }
       `}</style>
       
-      {/* Custom cursor */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] flex items-center justify-center"
-        style={{
-          x: springX,
-          y: springY,
-        }}
-      >
+      <div ref={containerRef}>
         <motion.div
-          className="rounded-full flex items-center justify-center font-medium"
+          className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full flex items-center justify-center font-medium"
           variants={variants}
           animate={cursorVariant}
+          transition={spring}
           style={{
             mixBlendMode: cursorVariant === 'default' || cursorVariant === 'link' ? 'difference' : 'normal',
           }}
@@ -178,7 +172,7 @@ export const CustomCursor = () => {
             </span>
           )}
         </motion.div>
-      </motion.div>
+      </div>
     </>
   );
 };

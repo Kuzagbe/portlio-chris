@@ -9,31 +9,9 @@ function getClientConfig() {
   let finalDataset = dataset;
   let finalApiVersion = apiVersion;
 
-  // In browser context, try to read directly from import.meta.env as fallback
-  if (typeof window !== 'undefined') {
-    try {
-      // @ts-ignore - import.meta exists in ESM/Vite
-      if (import.meta && import.meta.env) {
-        // @ts-ignore
-        if (!finalProjectId && import.meta.env.VITE_SANITY_PROJECT_ID) {
-          // @ts-ignore
-          finalProjectId = import.meta.env.VITE_SANITY_PROJECT_ID;
-        }
-        // @ts-ignore
-        if (!finalDataset && import.meta.env.VITE_SANITY_DATASET) {
-          // @ts-ignore
-          finalDataset = import.meta.env.VITE_SANITY_DATASET;
-        }
-        // @ts-ignore
-        if (!finalApiVersion && import.meta.env.VITE_SANITY_API_VERSION) {
-          // @ts-ignore
-          finalApiVersion = import.meta.env.VITE_SANITY_API_VERSION;
-        }
-      }
-    } catch (e) {
-      // Silently fail
-    }
-  }
+  // Note: import.meta.env is available in Vite/browser context
+  // But we rely on process.env (via dotenv) which works in both contexts
+  // This avoids CJS build issues during Sanity Studio deployment
 
   return {
     projectId: finalProjectId || 'dllxpw15',
